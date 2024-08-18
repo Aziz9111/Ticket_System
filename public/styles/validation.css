@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  --color-pr-1: rgb(255, 255, 255);
+  --color-pr-2: rgb(218, 218, 218);
+  --color-pr-3: rgb(180, 156, 202);
+  --color-pr-4: rgb(102, 53, 149);
+  --color-or-1: rgb(249, 188, 75);
+
+  background-color: var(--color-pr-2);
+}
+
+main {
+  width: 90%;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+#logo a {
+  font-size: 24px;
+  font-weight: 600;
+  color: black;
+}
+
+.validation-form {
+  background-color: var(--color-pr-1);
+  max-width: 25rem;
+  margin: 8rem auto;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 1rem;
+}
+
+div {
+  padding: var(--space-1);
+}
+
+label {
+  font-size: large;
+}
+
+input {
+  display: block;
+  margin: 0.5rem auto;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid black;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn {
+  border-radius: 0.5rem;
+  border: 1px solid black;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-pr-1);
+  color: black;
+  cursor: pointer;
+  font: inherit;
+  margin-top: 0.25rem;
+}
+
+.btn:hover {
+  background-color: var(--color-or-1);
+}
+
+a:hover {
+  background-color: var(--color-or-1);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}

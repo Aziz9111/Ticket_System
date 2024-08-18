@@ -1,0 +1,45 @@
+<%- include("../includes/head") , { title: 'Signup Page' }%>
+<link rel="stylesheet" href="/styles/validation.css" />
+<body>
+  <%- include('../includes/header') %>
+  <main>
+    <form class="validation-form" action="/signup" method="POST">
+      <h1>Signup</h1>
+      <div>
+        <label for="username">Enter Your Name:</label>
+        <input type="text" id="username" name="username" value="" required />
+      </div>
+      <div>
+        <label for="email">Enter Your Email:</label>
+        <input type="email" id="email" name="email" value="" required />
+      </div>
+      <div>
+        <label for="Password">Enter Your Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value=""
+          required
+          minlength="6"
+        />
+      </div>
+      <div>
+        <label for="confirmedPasswored">Confirm Your Password:</label>
+        <input
+          type="password"
+          id="confirmedPasswored"
+          name="confirmedPasswored"
+          value=""
+          required
+          minlength="6"
+        />
+      </div>
+      <div>
+        <button class="btn">Signup</button>
+        <p>If you have an acoount <a class="btn" href="/login">Login</a></p>
+      </div>
+    </form>
+  </main>
+  <%- include("../includes/footer") %>
+</body>
