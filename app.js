@@ -1,7 +1,9 @@
-const path = require("path");
-
 const express = require("express");
+const path = require("path");
+const session = require("express-session");
+
 const authRoute = require("./routes/auth.route");
+const sessionStoreConfig = require("./config/session")
 
 const app = express();
 
@@ -10,6 +12,10 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true })); // Parse incoming request bodies
 app.use(express.static("public")); // Serve static files (e.g. CSS files)
+
+const sessionConfig = sessionStoreConfig();
+
+app.use(session(sessionConfig))
 
 app.use(authRoute);
 
