@@ -3,6 +3,7 @@ const path = require("path");
 const session = require("express-session");
 
 const authRoute = require("./routes/auth.route");
+const ticketRoute = require("./routes/ticket.route")
 const sessionStoreConfig = require("./config/session")
 
 const app = express();
@@ -18,6 +19,7 @@ const sessionConfig = sessionStoreConfig();
 app.use(session(sessionConfig))
 
 app.use(authRoute);
+app.use(ticketRoute);
 
 app.use(function (error, req, res, next) {
   // Default error handling function

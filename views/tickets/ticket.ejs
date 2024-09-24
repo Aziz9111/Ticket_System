@@ -1,0 +1,27 @@
+<%- include("../includes/head") , { title: 'Ticket Creation Page' } %>
+<link rel="stylesheet" href="/styles/validation.css" />
+<body>
+  <%- include('../includes/header') %>
+  <main>
+    <form class="validation-form" action="/create_ticket" method="POST">
+      <h1>Ticket Creation</h1>
+      <div>
+        <label for="title">Title:</label>
+        <input type="title" id="title" name="title" value="" required />
+      </div>
+
+      <div>
+        <label for="description">Description:</label>
+        <input
+          type="description"
+          id="description"
+          name="description"
+          value=""
+          required
+        />
+      </div>
+      <button type="submit" class="btn"><a class="btn" href="/login">Create</a></button>
+    </form>
+  </main>
+  <%- include("../includes/footer") %>
+</body>
