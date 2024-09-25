@@ -25,8 +25,20 @@ async function signup(req, res, next) {
   res.redirect("/login");
 }
 
+async function login(req, res, next) {
+  const user = new User(null, req.body.email, req.body.password);
+  try {
+    await user.createUser();
+  } catch (error) {
+    next(error);
+    return;
+  }
+  res.redirect("/");
+}
+
 module.exports = {
   getLogin: getLogin,
   getSignup: getSignup,
   signup: signup,
+  login: login,
 };
