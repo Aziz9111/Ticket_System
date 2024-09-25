@@ -64,7 +64,7 @@ label {
   font-size: large;
 }
 
-input {
+input, textarea {
   display: block;
   margin: 0.5rem auto;
   border-radius: 0.5rem;
