@@ -3,8 +3,9 @@ const path = require("path");
 const session = require("express-session");
 
 const authRoute = require("./routes/auth.route");
-const ticketRoute = require("./routes/ticket.route")
-const sessionStoreConfig = require("./config/session")
+const ticketRoute = require("./routes/ticket.route");
+const baseRoute = require("./routes/base.route")
+const sessionStoreConfig = require("./config/session");
 
 const app = express();
 
@@ -18,6 +19,7 @@ const sessionConfig = sessionStoreConfig();
 
 app.use(session(sessionConfig))
 
+app.use(baseRoute);
 app.use(authRoute);
 app.use(ticketRoute);
 
