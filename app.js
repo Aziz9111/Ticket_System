@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const authRoute = require("./routes/auth.route");
 const ticketRoute = require("./routes/ticket.route");
@@ -18,6 +19,7 @@ app.use(express.static("public")); // Serve static files (e.g. CSS files)
 const sessionConfig = sessionStoreConfig();
 
 app.use(session(sessionConfig))
+app.use(flash())
 
 app.use(baseRoute);
 app.use(authRoute);

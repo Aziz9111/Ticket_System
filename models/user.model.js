@@ -12,21 +12,21 @@ class User {
     await db.query("SELECT * FROM users");
   }
 
-  async getUserEmail() {
-    await db.query("SELECT email FROM users");
-  }
+// Function to get user by email
+async getUserEmail(email) {
+  // Assuming db.query returns a Promise
+  const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]); // Pass email as an array
+  return rows.length > 0 ? rows[0] : null; // Return the first row or null if no user found
+}
 
-  async userExist() {
-    const userExist = await this.getUserEmail();
-
-    if (userExist) {
-      return true;
-    }
-    return false
-  }
+/* // Function to check if user exists
+async userExist(email) {
+  const user = await this.getUserEmail(email);
+  return user !== null; // Return true if user exists, false otherwise
+} */
 
   static async findById(id) {
-    await db.query("SELECT id, name, email, role FROM users WHERE id = ?", id);
+    await db.query("SELECT id, name, email, role FROM users WHERE id = ?", [id]);
   }
 
   async createUser() {

@@ -16,27 +16,27 @@ main {
   width: 90%;
   max-width: 50rem;
   margin: 0 auto;
-}.info-msg,
-.success-msg,
-.warning-msg,
-.error-msg {
+}.info,
+.success,
+.warning,
+.error {
   margin: 10px 0;
   padding: 10px;
-  border-radius: 3px 3px 3px 3px;
+  border-radius: 3px;
 }
-.info-msg {
+.info {
   color: #059;
   background-color: #BEF;
 }
-.success-msg {
+.success {
   color: #270;
   background-color: #DFF2BF;
 }
-.warning-msg {
+.warning {
   color: #9F6000;
   background-color: #FEEFB3;
 }
-.error-msg {
+.error {
   color: #D8000C;
   background-color: #FFBABA;
 }

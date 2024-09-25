@@ -1,39 +1,71 @@
 const User = require("../models/user.model");
+const validation = require("../util/validation");
 
 function getLogin(req, res) {
-  res.render("auth/login");
+  res.render("auth/login", {messages: req.flash()});
 }
 
 function getSignup(req, res) {
-  res.render("auth/signup");
+  
+  res.render("auth/signup", {messages: req.flash()});
 }
 
 async function signup(req, res, next) {
-  const enterdData = {
-    name: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-  };
+  if (!validation.validUserData(
+      req.body.username,
+      req.body.email,
+      req.body.password,
+    )) {
+    req.flash("error", "Please Enter Valid Data");
+    return res.redirect("/signup"); 
+  }
+
+  if (!validation.passwordConfirmed(req.body.password, req.body.confirmedPassword)) {
+    req.flash("error", "Password Doesn't Match");
+    return res.redirect("/signup"); 
+  }
 
   const user = new User(req.body.username, req.body.email, req.body.password);
   try {
+    const userExist = await user.getUserEmail(req.body.email);
+
+    if (userExist) {
+      req.flash("error", "User Exists");
+      return res.redirect("/signup"); 
+    }
     await user.createUser();
+    req.flash("success", "Account Created Successfully");
+    return res.redirect("/");
+
   } catch (error) {
     next(error);
     return;
   }
-  res.redirect("/login");
 }
 
 async function login(req, res, next) {
-  const user = new User(null, req.body.email, req.body.password);
+  const { email, password } = req.body;
+  const user = new User(null, email, password);
+  let existingUser;
+
   try {
-    await user.createUser();
+    existingUser = await user.getUserEmail(email);
   } catch (error) {
     next(error);
     return;
   }
-  res.redirect("/");
+
+  if (!existingUser) {
+    req.flash("error", "Invalid email or password");
+    return res.redirect("/login");
+  }
+  const isPasswordValid = await user.comparePassword(existingUser.password);
+  
+  if (!isPasswordValid) {
+    req.flash("error", "Invalid email or password")
+    return res.redirect("/login")
+  }
+  res.redirect("/")
 }
 
 module.exports = {

@@ -5,6 +5,13 @@
   <main>
     <form class="validation-form" action="/signup" method="POST">
       <h1>Signup</h1>
+      <% if (messages.error ) {%>
+        <div class="error">
+          <li class="fa fa-times-circle">
+            <%= messages.error %>
+          </li>
+        </div>
+        <% } %>
       <div>
         <label for="username">Enter Your Name:</label>
         <input type="text" id="username" name="username" value="" required />
@@ -25,11 +32,11 @@
         />
       </div>
       <div>
-        <label for="confirmedPasswored">Confirm Your Password:</label>
+        <label for="confirmedPassword">Confirm Your Password:</label>
         <input
           type="password"
-          id="confirmedPasswored"
-          name="confirmedPasswored"
+          id="confirmedPassword"
+          name="confirmedPassword"
           value=""
           required
           minlength="6"
