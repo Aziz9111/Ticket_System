@@ -16,7 +16,9 @@ main {
   width: 90%;
   max-width: 50rem;
   margin: 0 auto;
-}.info,
+}
+
+.info,
 .success,
 .warning,
 .error {

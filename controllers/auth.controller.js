@@ -56,13 +56,13 @@ async function login(req, res, next) {
   }
 
   if (!existingUser) {
-    req.flash("error", "Invalid email or password");
+    req.flash("error", "Invalid Email or Password");
     return res.redirect("/login");
   }
   const isPasswordValid = await user.comparePassword(existingUser.password);
   
   if (!isPasswordValid) {
-    req.flash("error", "Invalid email or password")
+    req.flash("error", "Invalid Email or Password")
     return res.redirect("/login")
   }
   res.redirect("/")

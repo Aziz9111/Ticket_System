@@ -7,4 +7,7 @@ router.get("/create_ticket", ticketController.getTicket);
 
 router.post("/create_ticket", ticketController.postTicket);
 
+router.get("/tickets", ticketController.getAllTickets);
+
+
 module.exports = router;
