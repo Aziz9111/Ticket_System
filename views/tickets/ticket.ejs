@@ -3,7 +3,7 @@
 <body>
   <%- include('../includes/header') %>
   <main>
-    <form class="validation-form" action="/create_ticket" method="POST">
+    <form class="validation-form" action="/create_ticket" method="POST" enctype="multipart/form-data">
       <h1>Ticket Creation</h1>
       <div>
         <label for="title">Title:</label>
@@ -19,6 +19,11 @@
           value=""
           required
         > </textarea>
+      </div>
+
+      <div>
+        <label for="image">Photo Of The Problem:</label>
+        <input type="file" id="image" name="image" value="" accept="image/png, image/jpg" />
       </div>
 
       <div>
