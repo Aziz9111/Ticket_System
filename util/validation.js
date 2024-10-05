@@ -1,7 +1,7 @@
-/* function isEmpty(value) {
+function isEmpty(value) {
   return !value || value.trim() === "";
 }
- */
+
 function userValidCredentials(name, email, password) {
   return (
     name && !/[!@#<>~]/.test(name) && email && email.includes("@") && password && password.trim().length >= 6 
@@ -19,7 +19,13 @@ function passwordConfirmed(password, confirmedPassword) {
   return password === confirmedPassword;
 }
 
+function checkEmail(email) {
+  return email && email.includes("@");
+}
+
 module.exports = {
   validUserData: validUserData,
-  passwordConfirmed: passwordConfirmed, 
+  passwordConfirmed: passwordConfirmed,
+  checkEmail: checkEmail,
+  isEmpty: isEmpty,
 }
