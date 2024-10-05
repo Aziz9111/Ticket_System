@@ -8,8 +8,8 @@ class Ticket {
   }
 
   static async findAll() {
-    const [rows] = await db.query("SELECT title, description, user_email FROM ticket");
-    return rows.map((ticketData) => new Ticket(ticketData)); // Map through rows
+    const [data] = await db.query("SELECT title, description, user_email FROM ticket");
+    return data.map((ticketData) => new Ticket(ticketData)); // Map through data
   }
 
   async save() {
