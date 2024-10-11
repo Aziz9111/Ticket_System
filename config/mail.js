@@ -1,0 +1,30 @@
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+const transport = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
+    secure: false,
+    auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    },
+})
+
+const sendEmail = async ({userEmail, ticketId}) => {
+    /* console.log("Sending email to:", userEmail); // To see if it working correctlly
+    console.log("Ticket ID:", ticketId); */
+    if (!userEmail) {
+        throw new Error("User email is not defined.");
+    }
+    return await transport.sendMail({
+        from: "no-reply@text.com",
+        to: userEmail,
+        subject: "Your Ticket Number",
+        text: `Thank you for your submission! Your ticket number is: ${ticketId}.`,
+    })
+}
+
+module.exports = sendEmail;
