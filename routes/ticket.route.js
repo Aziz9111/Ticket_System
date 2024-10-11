@@ -10,5 +10,7 @@ router.post("/create_ticket", imageUploadMiddleware, ticketController.postTicket
 
 router.get("/tickets", ticketController.getAllTickets);
 
+router.get("/ticket/:id", ticketController.getOneTicket);
+
 
 module.exports = router;
