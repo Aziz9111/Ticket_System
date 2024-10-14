@@ -13,6 +13,10 @@ router.get("/admin/ticket-project", adminController.getTicketProject);
 
 router.post("/admin/ticket-type", adminController.postTicketType);
 
+router.get("/admin/ticket-status", adminController.getTicketStatus);
+
+router.post("/admin/ticket-status", adminController.postTicketStatus);
+
 router.post("/admin/ticket-project", adminController.postTicketProject);
 
 router.post("/admin/ticket/:id", adminController.updateTicket);
