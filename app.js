@@ -5,7 +5,9 @@ const flash = require("connect-flash");
 
 const authRoute = require("./routes/auth.route");
 const ticketRoute = require("./routes/ticket.route");
-const baseRoute = require("./routes/base.route")
+const baseRoute = require("./routes/base.route");
+const adminRoute = require("./routes/admin.route");
+const agentRoute = require("./routes/agent.route");
 const sessionStoreConfig = require("./config/session");
 
 const app = express();
@@ -24,6 +26,8 @@ app.use(flash())
 app.use(baseRoute);
 app.use(authRoute);
 app.use(ticketRoute);
+app.use(adminRoute);
+app.use(agentRoute);
 
 app.use(function (error, req, res, next) {
   // Default error handling function
