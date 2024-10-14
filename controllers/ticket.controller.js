@@ -90,15 +90,23 @@ async function viewTicket(req,res, next) {
   const ticketId = req.params.id;  // Extract ticketId from the URL
   let ticket;
   
+  let statuses;
   try {
     // Find ticket by ID only, no need to check email here
     ticket = await Ticket.findOneId(ticketId);  // Ensure this method exists in your model
+
+
     if (!ticket) {
       req.flash("error", "Ticket not found.");
       return res.redirect("/tickets");  // Redirect if no ticket is found
-    }
+    }    
+    
+    statuses = await Ticket.getStatuss();
+ /*    console.log("Ticket:", ticket); // Log the ticket object
+    console.log("Statuses:", statuses); // Log the statuses array */
+
     const messages = req.flash();
-    res.render("tickets/detailed-ticket", { ticket: ticket, messages: messages });
+    res.render("tickets/detailed-ticket", { ticket: ticket, messages: messages, statuses: statuses });
   } catch (error) {
     console.error("Error fetching ticket:", error);
     next(error);

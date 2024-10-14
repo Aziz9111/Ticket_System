@@ -31,7 +31,7 @@ async function getAllTickets(req,res, next) {
       projects = await Ticket.getProject();
 
       const messages = req.flash();
-      
+
       res.render("admin/update-ticket", { 
         ticket: ticket, 
         messages: messages,
@@ -50,20 +50,14 @@ async function getAllTickets(req,res, next) {
     const id = req.params.id;
     const priority = req.body.priority;
     const reply = req.body.reply;
-    const status = req.body.status;
-    const type = req.body.type;
-    const project = req.body.project;
+    const status_id = req.body.status;
+    const type_id = req.body.type;
+    const project_id = req.body.project;
   
-    let ticketType;
-    let ticketProject;
-    let ticketStatus;
     try {
-      ticketProject = await Ticket.getProject();
-      ticketType = await Ticket.getType();
-      ticketStatus = await Ticket.getStatuss();
-        await Ticket.adminUpdateTicket(id, ticketStatus.id, ticketType.id, priority, ticketProject.id, reply);
-
-        res.redirect(`/admin/ticket/${id}`);
+        await Ticket.adminUpdateTicket(id, status_id, type_id, priority, project_id, reply);
+        req.flash("success", "Ticket Updated Successfully");
+        return res.redirect(`/admin/ticket/${id}`);
     } catch (error) {
         next(error);
     }

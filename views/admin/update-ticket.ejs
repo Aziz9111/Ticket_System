@@ -9,12 +9,24 @@
     <form class="validation-form" action="/admin/ticket/<%= ticket.id %>" method="POST">
       <h1>Ticket Update</h1>
       <ul id="tickets-grid">
+        <% if (messages.success ) {%>
+          <div class="success">
+            <li class="fa fa-times-circle">
+              <%= messages.success %>
+            </li>
+          </div>
+          <% } %>
         <li>
            <article class="ticket-item">
                <div class="ticket-item-content">
                    <h2>Ticket Title: <%= ticket.title %></h2>
                    <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
                    <p>Description: <%= ticket.description %></p>
+      <div>
+        <label for="priority">Priority:</label>
+        <input type="priority" id="priority" name="priority" value=""  />
+      </div>
+
       <div>
         <label for="status">Status:</label>
         <select id="status" name="status"> 
@@ -24,11 +36,6 @@
             </option>
           <% }) %>
         </select>
-      </div>
-
-      <div>
-        <label for="priority">Priority:</label>
-        <input type="priority" id="priority" name="priority" value=""  />
       </div>
 
       <div>
