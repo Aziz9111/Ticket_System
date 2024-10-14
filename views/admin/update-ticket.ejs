@@ -1,0 +1,65 @@
+<%- include("../includes/head") , { title: 'Ticket Update' } %>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<link rel="stylesheet" href="/styles/validation.css" />
+<link rel="stylesheet" href="/styles/ticket.css" />
+
+<body>
+  <%- include('../includes/header') %>
+  <main>
+    <form class="validation-form" action="/admin/ticket/<%= ticket.id %>" method="POST">
+      <h1>Ticket Update</h1>
+      <ul id="tickets-grid">
+        <li>
+           <article class="ticket-item">
+               <div class="ticket-item-content">
+                   <h2>Ticket Title: <%= ticket.title %></h2>
+                   <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
+                   <p>Description: <%= ticket.description %></p>
+      <!-- <div>
+        <label for="status">Status:</label>
+        <input type="status" id="status" name="status" value=""  />
+      </div> -->
+
+      <div>
+        <label for="priority">Priority:</label>
+        <input type="priority" id="priority" name="priority" value=""  />
+      </div>
+
+      <div>
+        <label for="project">Project:</label>
+        <input type="project" id="project" name="project" value=""  />
+      </div>
+
+      <div>
+        <label for="description">Project Description:</label>
+        <textarea
+          type="description"
+          id="description"
+          name="description"
+          value=""
+          
+        > </textarea>
+      </div>
+
+      <div>
+        <label for="type">Type:</label>
+        <input type="type" id="type" name="type" value=""/>
+      </div>
+
+      <div>
+        <label for="reply">Reply:</label>
+        <textarea
+          type="reply"
+          id="reply"
+          name="reply"
+          value=""
+        > </textarea>
+      </div>
+
+<!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
+ -->      
+      <button type="submit" class="btn">Update</button>
+    </form>
+  </main>
+  <%- include("../includes/footer") %>
+</body>

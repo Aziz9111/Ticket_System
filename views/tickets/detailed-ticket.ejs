@@ -4,22 +4,19 @@
 <body>
   <%- include('../includes/header') %>
   <main>
-    <h1>All Tickets</h1>
+    <h1>My Ticket</h1>
         <ul id="tickets-grid">
-            <% for (const ticket of tickets) {%>
              <li>
                 <article class="ticket-item">
                     <div class="ticket-item-content">
-                        <h2><%= ticket.title %></h2>
-                        <p style="font-weight: bold; color: rgb(243, 32, 32);;">By <%= ticket.user_email  %></p>
-                        <p><%= ticket.description %></p>
-                        <div class="ticket-item-action">
-                            <a class="btn" href="/ticket/<%= ticket.id%>">View Details</a>
-                        </div>
+                        <h2>Ticket Title: <%= ticket.title %></h2>
+                        <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
+                        <p>Description: <%= ticket.description %></p>
+                        <p>Status: <%= ticket.status %></p>
+                        <p>Agent Reply: <%= ticket.reply %></p>
                     </div>
                 </article>
              </li>
-             <% } %>
         </ul>
   </main>
   <%- include("../includes/footer") %>

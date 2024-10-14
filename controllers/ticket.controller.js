@@ -56,19 +56,62 @@ async function getAllTickets(req,res, next) {
   }
 }
 
-async function getOneTicket(req,res, next) {
-  const id = req.params.id;
-  let tickets;
+ function getOneTicket(req,res) {
+    const messages = req.flash() 
+    res.render("tickets/ticket-inquiry", {messages: messages});  
+}
+
+
+
+async function postOneTicket(req,res, next) {
+  const { ticketId, email } = req.body;
+  let ticket;
+  
   try {
-    tickets = await Ticket.findById(id);
-    res.render("tickets/ticket-list", {tickets: tickets});  
+    // Find ticket by ID and email
+    ticket = await Ticket.findOne(ticketId, email);
+
+    if (!ticket) {
+      // If no ticket is found, display an error and redirect back to inquiry form
+      req.flash("error", "Ticket not found or email does not match.");
+      return res.redirect("/ticket/inquiry");
+    }
+
+    // If ticket is found, redirect to the detailed view
+    return res.redirect(`/ticket/${ticketId}`);
   } catch (error) {
-    next(error)
+    console.error("Error in postOneTicket:", error);
+    next(error);
   }
 }
+
+
+async function viewTicket(req,res, next) {
+  const ticketId = req.params.id;  // Extract ticketId from the URL
+  let ticket;
+  
+  try {
+    // Find ticket by ID only, no need to check email here
+    ticket = await Ticket.findOneId(ticketId);  // Ensure this method exists in your model
+    if (!ticket) {
+      req.flash("error", "Ticket not found.");
+      return res.redirect("/tickets");  // Redirect if no ticket is found
+    }
+    const messages = req.flash();
+    res.render("tickets/detailed-ticket", { ticket: ticket, messages: messages });
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    next(error);
+  }
+}
+
+
+
 module.exports = {
     getTicket: getTicket,
     postTicket: postTicket,
     getAllTickets: getAllTickets,
     getOneTicket: getOneTicket,
+    postOneTicket: postOneTicket,
+    viewTicket: viewTicket,
 }

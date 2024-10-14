@@ -1,0 +1,23 @@
+<%- include("../includes/head") , { title: 'Add Type' } %>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<link rel="stylesheet" href="/styles/validation.css" />
+<link rel="stylesheet" href="/styles/ticket.css" />
+
+<body>
+  <%- include('../includes/header') %>
+  <main>
+    <form class="validation-form" action="/admin/ticket/<%= ticket.id %>" method="POST">
+      <h1>Add Type</h1>
+    
+      <div>
+        <label for="type">Type:</label>
+        <input type="type" id="type" name="type" value=""/>
+      </div>
+
+<!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
+ -->      
+      <button type="submit" class="btn">Add</button>
+    </form>
+  </main>
+  <%- include("../includes/footer") %>
+</body>
