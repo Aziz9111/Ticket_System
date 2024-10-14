@@ -10,10 +10,10 @@ class Ticket {
     this.imagePath = ticketData.image ? path.join(__dirname, '../../Images', ticketData.image) : null; 
     this.imageUrl = this.image ? `/images/${ticketData.image}` : null;
     this.user_email = ticketData.user_email;
-    this.status = ticketData.status;
-    this.type = ticketData.type;
+    this.status = ticketData.status_id;
+    this.type = ticketData.type_id;
     this.priority = ticketData.priority;
-    this.project = ticketData.project;
+    this.project = ticketData.project_id;
     this.reply = ticketData.reply;
     this.id = ticketData.id;
   }
@@ -62,10 +62,10 @@ class Ticket {
     }
   }
 
-  static async adminUpdateTicket(ticketId, priority, reply) {
+  static async adminUpdateTicket(ticketId, status_id, type_id, priority, project_id, reply) {
     const [data] = await db.query(
-      "UPDATE ticket SET priority = ?, reply = ? WHERE id = ?", 
-      [priority, reply, ticketId]);
+      "UPDATE ticket SET status_id = ?, type_id = ?, priority = ?, project_id = ?, reply = ? WHERE id = ?", 
+      [status_id, type_id, priority, project_id, reply, ticketId]);
 
     return [data];
   }
@@ -76,6 +76,36 @@ class Ticket {
       [typeName]
     );
     return [data];
+  }
+
+  static async status(statusName) {
+    const [data] = await db.query(
+      "INSERT INTO status (name) VALUE (?)",
+      [statusName]
+    );
+    return [data];
+  }
+
+
+  static async getType() {
+    const [type] = await db.query(
+      "SELECT * FROM type"
+    );
+    return [type];
+  }
+
+  static async getStatuss() {
+    const [status] = await db.query(
+      "SELECT * FROM status"
+    );
+    return [status];
+  }
+
+  static async getProject() {
+    const [project] = await db.query(
+      "SELECT * FROM project"
+    );
+    return [project];
   }
 
   static async project(projectName, projectDescription) {

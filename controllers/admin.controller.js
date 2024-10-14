@@ -13,7 +13,10 @@ async function getAllTickets(req,res, next) {
   async function viewTicket(req,res, next) {
     const ticketId = req.params.id;  // Extract ticketId from the URL
     let ticket;
-    
+    let statuses;
+    let types;
+    let projects;
+
     try {
       // Find ticket by ID only, no need to check email here
       ticket = await Ticket.findOneId(ticketId);  // Ensure this method exists in your model
@@ -21,8 +24,22 @@ async function getAllTickets(req,res, next) {
         req.flash("error", "Ticket not found.");
         return res.redirect("/tickets");  // Redirect if no ticket is found
       }
+
+      // Fetch all possible statuses, types, and projects
+      statuses = await Ticket.getStatuss();
+      types = await Ticket.getType();
+      projects = await Ticket.getProject();
+
       const messages = req.flash();
-      res.render("admin/update-ticket", { ticket: ticket, messages: messages });
+      
+      res.render("admin/update-ticket", { 
+        ticket: ticket, 
+        messages: messages,
+        statuses: statuses[0],
+        types: types[0],
+        projects: projects[0],
+        messages: messages
+       });
     } catch (error) {
       console.error("Error fetching ticket:", error);
       next(error);
@@ -33,9 +50,18 @@ async function getAllTickets(req,res, next) {
     const id = req.params.id;
     const priority = req.body.priority;
     const reply = req.body.reply;
+    const status = req.body.status;
+    const type = req.body.type;
+    const project = req.body.project;
   
+    let ticketType;
+    let ticketProject;
+    let ticketStatus;
     try {
-        await Ticket.adminUpdateTicket(id, priority, reply);
+      ticketProject = await Ticket.getProject();
+      ticketType = await Ticket.getType();
+      ticketStatus = await Ticket.getStatuss();
+        await Ticket.adminUpdateTicket(id, ticketStatus.id, ticketType.id, priority, ticketProject.id, reply);
 
         res.redirect(`/admin/ticket/${id}`);
     } catch (error) {
@@ -53,6 +79,11 @@ function getTicketProject(req, res) {
     res.render("admin/ticket-project", {messages: messages});
 }
 
+function getTicketStatus(req, res) {
+  const messages = req.flash();
+    res.render("admin/ticket-status", {messages: messages});
+}
+
 async function postTicketType(req, res, next) {
   const type = req.body.type;
 
@@ -61,6 +92,21 @@ async function postTicketType(req, res, next) {
       await Ticket.type(type);
       req.flash("success", "Type Added Successfully");
       return res.redirect("/admin/ticket-type")
+    }
+  } catch (error) {
+    next()
+    return
+  }
+}
+
+async function postTicketStatus(req, res, next) {
+  const status = req.body.status;
+
+  try {
+    if (status) {
+      await Ticket.status(status);
+      req.flash("success", "Status Added Successfully");
+      return res.redirect("/admin/ticket-status")
     }
   } catch (error) {
     next()
@@ -92,4 +138,6 @@ module.exports = {
     getTicketProject: getTicketProject, 
     postTicketProject: postTicketProject,
     postTicketType: postTicketType,
+    getTicketStatus: getTicketStatus,
+    postTicketStatus: postTicketStatus,
 }

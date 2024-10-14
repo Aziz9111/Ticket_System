@@ -15,10 +15,16 @@
                    <h2>Ticket Title: <%= ticket.title %></h2>
                    <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
                    <p>Description: <%= ticket.description %></p>
-      <!-- <div>
+      <div>
         <label for="status">Status:</label>
-        <input type="status" id="status" name="status" value=""  />
-      </div> -->
+        <select id="status" name="status"> 
+          <% statuses.forEach(function(status) { %>
+            <option value="<%= status.id %>" <%= ticket.status === status.id ? "selected" : "" %> >
+              <%= status.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
 
       <div>
         <label for="priority">Priority:</label>
@@ -27,12 +33,24 @@
 
       <div>
         <label for="project">Project:</label>
-        <input type="project" id="project" name="project" value=""  />
+        <select id="project" name="project"> 
+          <% projects.forEach(function(project) { %>
+            <option value="<%= project.id %>" <%= ticket.project === project.id ? "selected" : "" %> >
+              <%= project.name %>
+            </option>
+          <% }) %>
+        </select>
       </div>
 
       <div>
         <label for="type">Type:</label>
-        <input type="type" id="type" name="type" value=""/>
+        <select id="type" name="type"> 
+          <% types.forEach(function(type) { %>
+            <option value="<%= type.id %>" <%= ticket.type === type.id ? "selected" : "" %> >
+              <%= type.name %>
+            </option>
+          <% }) %>
+        </select>
       </div>
 
       <div>
