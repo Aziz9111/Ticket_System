@@ -33,24 +33,63 @@ async function getAllTickets(req,res, next) {
     const id = req.params.id;
     const priority = req.body.priority;
     const reply = req.body.reply;
-    const project = req.body.project;
-    const description = req.body.description;
-    const type = req.body.type;
   
     try {
         await Ticket.adminUpdateTicket(id, priority, reply);
-        await Ticket.type(type);
-        await Ticket.project(project, description);
 
-        
         res.redirect(`/admin/ticket/${id}`);
     } catch (error) {
         next(error);
     }
 }
 
+function getTicketType(req, res) {
+  const messages = req.flash();
+    res.render("admin/ticket-type", {messages: messages});
+}
+
+function getTicketProject(req, res) {
+  const messages = req.flash();
+    res.render("admin/ticket-project", {messages: messages});
+}
+
+async function postTicketType(req, res, next) {
+  const type = req.body.type;
+
+  try {
+    if (type) {
+      await Ticket.type(type);
+      req.flash("success", "Type Added Successfully");
+      return res.redirect("/admin/ticket-type")
+    }
+  } catch (error) {
+    next()
+    return
+  }
+}
+
+async function postTicketProject(req, res, next) {
+  const project = req.body.project;
+  const description = req.body.description;
+
+  try {
+    if (project && description) {
+      await Ticket.project(project, description);
+      req.flash("success", "Project Added Successfully");
+      return res.redirect("/admin/ticket-project")
+    }
+  } catch (error) {
+    next()
+    return
+  }
+}
+
 module.exports = {
     getAllTickets: getAllTickets,
     viewTicket: viewTicket,
     updateTicket: updateTicket,
+    getTicketType: getTicketType,
+    getTicketProject: getTicketProject, 
+    postTicketProject: postTicketProject,
+    postTicketType: postTicketType,
 }

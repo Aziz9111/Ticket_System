@@ -6,9 +6,15 @@
 <body>
   <%- include('../includes/header') %>
   <main>
-    <form class="validation-form" action="/admin/ticket/<%= ticket.id %>" method="POST">
+    <form class="validation-form" action="/admin/ticket-type" method="POST">
       <h1>Add Type</h1>
-    
+      <% if (messages.success ) {%>
+        <div class="success">
+          <li class="fa fa-times-circle">
+            <%= messages.success %>
+          </li>
+        </div>
+        <% } %>
       <div>
         <label for="type">Type:</label>
         <input type="type" id="type" name="type" value=""/>
