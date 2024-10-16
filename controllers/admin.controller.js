@@ -16,6 +16,7 @@ async function getAllTickets(req,res, next) {
     let statuses;
     let types;
     let projects;
+    let notes;
 
     try {
       // Find ticket by ID only, no need to check email here
@@ -30,6 +31,8 @@ async function getAllTickets(req,res, next) {
       types = await Ticket.getType();
       projects = await Ticket.getProject();
 
+      notes = await Ticket.getNotes(ticketId);
+      
       const messages = req.flash();
 
       res.render("admin/update-ticket", { 
@@ -38,6 +41,7 @@ async function getAllTickets(req,res, next) {
         statuses: statuses[0],
         types: types[0],
         projects: projects[0],
+        notes: notes,
         messages: messages
        });
     } catch (error) {
