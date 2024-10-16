@@ -29,6 +29,14 @@ async userExist(email) {
     await db.query("SELECT id, name, email, role FROM users WHERE id = ?", [id]);
   }
 
+  static async admin() {
+    await db.query("SELECT * FROM users WHERE role = admin");
+  }
+
+  static async agent() {
+    await db.query("SELECT * FROM users WHERE role = agent");
+  }
+
   async createUser() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
     const data = [this.name, this.email, hashedPassword];

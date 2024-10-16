@@ -64,7 +64,7 @@ class Ticket {
 
   static async adminUpdateTicket(ticketId, status_id, type_id, priority, project_id, reply) {
     const [data] = await db.query(
-      "UPDATE ticket SET status_id = ?, type_id = ?, priority = ?, project_id = ?, reply = ? WHERE id = ?", 
+      "UPDATE ticket SET status_id = ?, type_id = ?, priority = ?, project_id = ?, reply = ?, updated_at = NOW() WHERE id = ?", 
       [status_id, type_id, priority, project_id, reply, ticketId]);
 
     return [data];
@@ -118,12 +118,28 @@ class Ticket {
 
   static async agentUpdateTicket(ticketId, status, reply) {
     const [data] = await db.query(
-      "UPDATE ticket SET status = ?, reply = ? WHERE id = ?", 
+      "UPDATE ticket SET status_id = ?, reply = ?, updated_at = NOW() WHERE id = ?", 
       [status, reply, ticketId]);
 
     return [data];
   }
+
+  static async sendTicket(ticketId, agent_id, notes) {
+    const [data] = await db.query(
+      "INSERT INTO assignment (ticket_id, agent_id, notes) VALUES (?, ?, ?)", 
+      [ticketId, agent_id, notes]);
+
+    return [data];
+  }
   
+  static async getNotes(ticketId) {
+    const [notes] = await db.query(
+      "SELECT notes FROM assignment WHERE ticket_id = ?", 
+      [ticketId]
+    );
+    return notes;
+  }
+
   
   async saveImage(ticketId) {
     const imagePath = this.imagePath;
