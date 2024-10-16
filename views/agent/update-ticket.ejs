@@ -6,28 +6,40 @@
 <body>
   <%- include('../includes/header') %>
   <main>
-    <form class="validation-form" action="/create_ticket" method="POST" enctype="multipart/form-data">
+    <form class="validation-form" action="/agent/ticket/<%= ticket.id %>" method="POST">
       <h1>Ticket Update</h1>
       <ul id="tickets-grid">
-        <li>
+        <% if (messages.success ) {%>
+          <div class="success">
+            <li class="fa fa-times-circle">
+              <%= messages.success %>
+            </li>
+          </div>
+          <% } %>        <li>
            <article class="ticket-item">
                <div class="ticket-item-content">
                    <h2>Ticket Title: <%= ticket.title %></h2>
                    <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
                    <p>Description: <%= ticket.description %></p>
                    <p>Priority: <%= ticket.priority %></p>
-                   <p>Project: <%= ticket.project %></p>
-                   <p>Type: <%= ticket.type %></p>
+                   <p>Project: <%= (projects[0].find(project => project.id === ticket.project) || {}).name || "Unknown Status" %></p>
+                   <p>Type: <%= (types[0].find(type => type.id === ticket.type) || {}).name || "Unknown Status" %></p>
                    <hr>
 
       <div>
         <label for="status">Status:</label>
-        <input type="status" id="status" name="status" value=""  />
+        <select id="status" name="status">
+          <% statuses[0].forEach(function(status) { %>
+            <option value="<%= status.id %>" <%= status.id === ticket.status ? 'selected' : '' %> >
+              <%= status.name %>
+            </option>
+          <% }) %>
+        </select>
       </div>
       <div>
         <label for="reply">Reply:</label>
         <textarea
-          type="reply"
+          type="text"
           id="reply"
           name="reply"
           value=""
@@ -37,7 +49,7 @@
 <!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
  -->      
       <button type="submit" class="btn">Update</button>
-      <a class="btn">Send To Admin</a>
+      <a class="btn" href="/agent/send-ticket/<%= ticket.id %>">Send To Admin</a>
     </form>
   </main>
   <%- include("../includes/footer") %>
