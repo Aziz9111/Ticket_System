@@ -29,17 +29,15 @@ function getTicket(req, res) {
   
     try {
       const ticketId = await ticket.save();
-      
-
       // Move email sending here
       await sendTicketEmail({userEmail: req.body.email, ticketId});
   
-      if (imageFile) {
+/*       if (imageFile) {
         await ticket.saveImage(ticketId);
-      }
+      } */
   
       req.flash("success", "Ticket Created");
-      return res.redirect("/tickets");
+      return res.redirect("/ticket/inquiry");
     } catch (error) {
       next(error);
       return;
