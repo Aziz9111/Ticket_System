@@ -22,8 +22,8 @@ const sendEmail = async ({userEmail, ticketId}) => {
     return await transport.sendMail({
         from: "aziz.storage911@gmail.com",
         to: userEmail,
-        subject: "Your Ticket Number",
-        text: `Thank you for your submission! Your ticket number is: ${ticketId}.`,
+        subject: `Your Ticket Number is: #${ticketId}`,
+        text: `Thank you for your submission! Your ticket number is: #${ticketId}.`,
     })
 }
 
