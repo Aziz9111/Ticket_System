@@ -58,6 +58,10 @@ main {
   border-radius: 1rem;
 }
 
+.req {
+  color: red;
+}
+
 div {
   padding: var(--space-1);
 }
