@@ -108,6 +108,15 @@ class Ticket {
     return [project];
   }
 
+  static async getImage(ticketId) {
+    const [image] = await db.query(
+      "SELECT * FROM file_attachment WHERE ticket_id = ?", [
+        ticketId
+      ]
+    );
+    return image;
+  }
+
   static async project(projectName, projectDescription) {
     const [data] = await  db.query(
       "INSERT INTO project (name, description) VALUES (?, ?)",
