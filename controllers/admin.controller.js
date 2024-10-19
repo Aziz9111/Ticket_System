@@ -1,4 +1,5 @@
 const Ticket = require("../models/ticket.model");
+const imageUpload = require("../util/upload-images");
 
 async function getAllTickets(req,res, next) {
     let tickets;
@@ -17,6 +18,7 @@ async function getAllTickets(req,res, next) {
     let types;
     let projects;
     let notes;
+    let image;
 
     try {
       // Find ticket by ID only, no need to check email here
@@ -31,8 +33,12 @@ async function getAllTickets(req,res, next) {
       types = await Ticket.getType();
       projects = await Ticket.getProject();
 
+      image = await Ticket.getImage(ticketId); 
+
+      const imageUrl = imageUpload.convertWindowsPathToUrl(image[0].path);  // Assuming the image path is in `image[0].imagePath`
+
       notes = await Ticket.getNotes(ticketId);
-      
+
       const messages = req.flash();
 
       res.render("admin/update-ticket", { 
@@ -41,6 +47,7 @@ async function getAllTickets(req,res, next) {
         statuses: statuses[0],
         types: types[0],
         projects: projects[0],
+        image: imageUrl,
         notes: notes,
         messages: messages
        });
