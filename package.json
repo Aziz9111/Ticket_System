@@ -8,8 +8,11 @@
     "express-mysql-session": "^3.0.3",
     "express-mysql2-session": "^1.0.1",
     "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.10.3",
-    "nodemon": "^3.1.4"
+    "nodemailer": "^6.9.15",
+    "nodemon": "^3.1.4",
+    "uuid": "^10.0.0"
   },
   "name": "ticket-system",
   "version": "1.0.0",
