@@ -2,6 +2,7 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
+<link rel="stylesheet" href="/styles/navbar.css" />
 
 <body>
   <%- include('../includes/header') %>
@@ -9,31 +10,23 @@
     <form class="validation-form" action="/admin/ticket-project" method="POST">
       <h1>Add Project</h1>
       <% if (messages.success ) {%>
-        <div class="success">
-          <li class="fa fa-times-circle">
-            <%= messages.success %>
-          </li>
-        </div>
-        <% } %>
+      <div class="success">
+        <li class="fa fa-times-circle"><%= messages.success %></li>
+      </div>
+      <% } %>
       <div>
         <label for="project">Project:</label>
-        <input type="project" id="project" name="project" value=""  />
+        <input type="project" id="project" name="project" value="" />
       </div>
 
       <div>
         <label for="description">Project Description:</label>
-        <textarea
-          type="textarea"
-          id="description"
-          name="description"
-          value=""
-          
-        > </textarea>
+        <textarea type="textarea" id="description" name="description" value="">
+        </textarea>
       </div>
 
-
-<!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
- -->      
+      <!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
+ -->
       <button type="submit" class="btn">Add</button>
     </form>
   </main>
