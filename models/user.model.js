@@ -13,10 +13,16 @@ class User {
   }
 
 // Function to get user by email
-async getUserEmail(email) {
+async getUserEmail(userEmail) {
   // Assuming db.query returns a Promise
-  const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]); // Pass email as an array
-  return rows.length > 0 ? rows[0] : null; // Return the first row or null if no user found
+  const [email] = await db.query("SELECT * FROM users WHERE email = ?", [userEmail]); // Pass email as an array
+  return email.length > 0 ? email[0] : null; // Return the first row or null if no user found
+}
+
+static async getUserByEmail(userEmail) {
+  // Assuming db.query returns a Promise
+  const [email] = await db.query("SELECT * FROM users WHERE email = ?", [userEmail]); // Pass email as an array
+  return email.length > 0 ? email[0] : null; // Return the first row or null if no user found
 }
 
 /* // Function to check if user exists
@@ -26,15 +32,18 @@ async userExist(email) {
 } */
 
   static async findById(id) {
-    await db.query("SELECT id, name, email, role FROM users WHERE id = ?", [id]);
+   const [data] = await db.query("SELECT id, name, email, role FROM users WHERE id = ?", [id]);
+   return [data]
   }
 
   static async admin() {
-    await db.query("SELECT * FROM users WHERE role = admin");
+    const [admin] = await db.query("SELECT * FROM users WHERE role = 'admin'");
+    return [admin];
   }
 
   static async agent() {
-    await db.query("SELECT * FROM users WHERE role = agent");
+   const [agent] = await db.query("SELECT * FROM users WHERE role = 'agent'");
+   return [agent];
   }
 
   async createUser() {
