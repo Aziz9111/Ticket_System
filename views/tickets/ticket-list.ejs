@@ -1,26 +1,30 @@
 <%- include("../includes/head") , { title: 'Ticket Creation Page' } %>
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
+<link rel="stylesheet" href="/styles/navbar.css" />
+
 <body>
   <%- include('../includes/header') %>
   <main>
     <h1>All Tickets</h1>
-        <ul id="tickets-grid">
-            <% for (const ticket of tickets) {%>
-             <li>
-                <article class="ticket-item">
-                    <div class="ticket-item-content">
-                        <h2><%= ticket.title %></h2>
-                        <p style="font-weight: bold; color: rgb(243, 32, 32);;">By <%= ticket.user_email  %></p>
-                        <p><%= ticket.description %></p>
-                        <div class="ticket-item-action">
-                            <a class="btn" href="/ticket/<%= ticket.id%>">View Details</a>
-                        </div>
-                    </div>
-                </article>
-             </li>
-             <% } %>
-        </ul>
+    <ul id="tickets-grid">
+      <% for (const ticket of tickets) {%>
+      <li>
+        <article class="ticket-item">
+          <div class="ticket-item-content">
+            <h2><%= ticket.title %></h2>
+            <p style="font-weight: bold; color: rgb(243, 32, 32)">
+              By <%= ticket.user_email %>
+            </p>
+            <p><%= ticket.description %></p>
+            <div class="ticket-item-action">
+              <a class="btn" href="/ticket/<%= ticket.id%>">View Details</a>
+            </div>
+          </div>
+        </article>
+      </li>
+      <% } %>
+    </ul>
   </main>
   <%- include("../includes/footer") %>
 </body>
