@@ -1,6 +1,8 @@
 <%- include("../includes/head") , { title: 'Ticket Creation Page' } %>
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
+<link rel="stylesheet" href="/styles/navbar.css" />
+
 <body>
   <%- include('../includes/header') %>
   <main>
@@ -15,6 +17,7 @@
                         <p><%= ticket.description %></p>
                         <div class="ticket-item-action">
                             <a class="btn" href="/admin/ticket/<%= ticket.id%>">Update</a>
+                            <a class="btn" href="/admin/assign-ticket/<%= ticket.id%>">Reply</a>
                         </div>
                     </div>
                 </article>
