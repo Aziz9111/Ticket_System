@@ -1,23 +1,35 @@
 <%- include("../includes/head") , { title: 'Ticket Creation Page' } %>
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
+<link rel="stylesheet" href="/styles/navbar.css" />
+
 <body>
   <%- include('../includes/header') %>
   <main>
     <h1>My Ticket</h1>
-        <ul id="tickets-grid">
-             <li>
-                <article class="ticket-item">
-                    <div class="ticket-item-content">
-                        <h2>Ticket Title: <%= ticket.title %></h2>
-                        <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
-                        <p>Description: <%= ticket.description %></p>
-                        <p>Status: <%= (statuses[0].find(status => status.id === ticket.status) || {}).name || "Unknown Status" %></p>
-                        <p>Agent Reply: <%= ticket.reply %></p>
-                    </div>
-                </article>
-             </li>
-        </ul>
+    <ul id="tickets-grid">
+      <li>
+        <article class="ticket-item">
+          <div class="ticket-item-content">
+            <h2>Ticket Title: <%= ticket.title %></h2>
+            <p style="font-weight: bold; margin-top: 2rem">
+              By <%= ticket.user_email %>
+            </p>
+            <p>Description: <%= ticket.description %></p>
+            <p>
+              Status: <%= (statuses[0].find(status => status.id ===
+              ticket.status) || {}).name || "Unknown Status" %>
+            </p>
+            <% if (Array.isArray(replies) && replies.length > 0) { %> <%
+            replies.forEach((el, idx) => { %>
+            <p>Reply <%= idx + 1 %>: <%= el.name %></p>
+            <% }) %> <% } else { %>
+            <p>No replies yet.</p>
+            <% } %>
+          </div>
+        </article>
+      </li>
+    </ul>
   </main>
   <%- include("../includes/footer") %>
 </body>

@@ -2,6 +2,8 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
+<link rel="stylesheet" href="/styles/navbar.css" />
+
 
 <body>
   <%- include('../includes/header') %>
@@ -22,21 +24,27 @@
                 <h2>Ticket Title: <%= ticket.title %></h2>
                 <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
                 <p>Description: <%= ticket.description %></p>
-                <img src="<%= image %>" alt="Screenshot">
+                <% if (image) { %>
+                  <p>Image Attached: <img src="<%= image %>" alt="Screenshot"></p>
+                  <% } else { %>
+                   <p>No Image Attached To This Ticket</p>
+                   <% } %>
+                <hr>
+                <% if (Array.isArray(replies) && replies.length > 0) { %>      
+                  <% replies.forEach((el, idx) => { %>
+                    <% if (el.reply_from === "admin") { %>
+                      <p>Admin Reply <%= idx + 1 %>: <%= el.name %></p>
+                    <% } else if (el.reply_from === "agent") { %>
+                      <p>Agent Reply <%= idx + 1 %>: <%= el.name %></p>
+                    <% } %>
+                  <% }) %>
+                <% } else { %>
+                  <p>No replies yet.</p>
+                <% } %>
               </div>
+              <hr>
         </article>
-        <% if (notes && notes.length > 0) { %> <!-- Check if there are notes -->
-          <div>
-            <h3>Notes:</h3>
-            <% notes.forEach(note => { %> <!-- Loop through each note -->
-              <p style="font-weight: bold;"><%= note.notes %></p> <!-- Display each note -->
-            <% }) %>
-          </div>
-        <% } else { %> <!-- Optional: Message if there are no notes -->
-          <div>
-            <h3>No Notes Yet</h3>
-          </div>
-        <% } %>  
+
       <div>
         <label for="priority">Priority:</label>
         <input type="priority" id="priority" name="priority" value=""  />
@@ -78,15 +86,6 @@
         <a style="display: inline-flex;" class="btn" href="/admin/ticket-type">Add</a>
       </div>
 
-      <div>
-        <label for="reply">Reply:</label>
-        <textarea
-          type="reply"
-          id="reply"
-          name="reply"
-          value=""
-        > </textarea>
-      </div>
 
 <!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
  -->      
