@@ -23,6 +23,11 @@ const sessionConfig = sessionStoreConfig();
 app.use(session(sessionConfig))
 app.use(flash())
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use('/images', express.static(path.join('C:', 'Users', 'abdul', 'Documents', 'Projects', 'Images')));
 
 app.use(baseRoute);
