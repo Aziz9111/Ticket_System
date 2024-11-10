@@ -1,0 +1,81 @@
+<%- include("../includes/head") , { title: 'Assign Ticket' } %>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<link rel="stylesheet" href="/styles/validation.css" />
+<link rel="stylesheet" href="/styles/ticket.css" />
+<link rel="stylesheet" href="/styles/navbar.css" />
+
+
+<body>
+  <%- include('../includes/header') %>
+  <main>
+    <form class="validation-form" 
+    action="/admin/assign-ticket/<%= ticket.id %>" 
+    method="POST" 
+    enctype="multipart/form-data">
+    
+      <h1>Assign Ticket</h1>
+      <ul id="tickets-grid">
+        <% if (messages.success) { %>
+          <div class="success">
+            <li class="fa fa-times-circle">
+              <%= messages.success %>
+            </li>
+          </div>
+        <% } %>
+
+        <li>
+          <div style="display: inline-flex;">
+            <input type="radio" id="agent-option" name="recipient" value="agent" onclick="toggleRecipient()" checked>
+            <label for="agent-option">Agent</label>
+            <input type="radio" id="customer-option" name="recipient" value="customer" onclick="toggleRecipient()">
+            <label for="customer-option">Customer</label>
+          </div>
+        </li>
+
+        <li id="agent-select-container">
+          <label for="agent">Agent:</label>
+          <select id="agent" name="agent">
+            <% agent.forEach(function(agent) { %>
+              <option value="<%= agent.id %>" <%= ticket.agent === agent.id ? "selected" : "" %> >
+                <%= agent.name %>
+              </option>
+            <% }) %>
+          </select>
+        </li>
+
+        <li id="agent-reply-container">
+          <label for="agent-reply">Reply to Agent:</label>
+          <textarea id="agent-reply" name="replyToAgent"></textarea>
+        </li>
+
+        <li id="customer-reply-container" style="display: none;">
+          <label for="customer-reply">Reply to Customer:</label>
+          <textarea id="customer-reply" name="replyToCustomer"></textarea>
+        </li>
+
+        <label for="image">Photo:</label>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          value=""
+          accept="image/png, image/jpg"
+        />
+
+        <button type="submit" class="btn">Send</button>
+    </form>
+  </main>
+  <%- include("../includes/footer") %>
+
+  <script>
+    function toggleRecipient() {
+      const isAgentSelected = document.getElementById("agent-option").checked;
+      document.getElementById("agent-select-container").style.display = isAgentSelected ? "block" : "none";
+      document.getElementById("agent-reply-container").style.display = isAgentSelected ? "block" : "none";
+      document.getElementById("customer-reply-container").style.display = isAgentSelected ? "none" : "block";
+    }
+
+    // Call this function on page load to set the correct initial display state
+    document.addEventListener("DOMContentLoaded", toggleRecipient);
+  </script>
+</body>
