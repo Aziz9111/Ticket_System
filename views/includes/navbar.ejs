@@ -1,0 +1,43 @@
+<nav>
+  <div class="wrapper">
+    <div class="logo"><a href="/">Ticket System</a></div>
+    <input type="radio" name="slider" id="menu-bttn" />
+    <input type="radio" name="slider" id="close-bttn" />
+    <ul class="nav-links">
+      <label for="close-bttn" class="bttn close-bttn"
+        ><i class="fas fa-times"></i
+      ></label>
+      <li><a href="/">Home</a></li>
+      <% if (!user || user.role == null) { %>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/signup">Signup</a></li>
+      <% } %> <% if (user) { %> <% if (user.role === 'admin') { %>
+      <li><a href="/admin/tickets">Tickets</a></li>
+      <% } else if (user.role === 'agent') {%>
+      <li><a href="/agent/tickets">Tickets</a></li>
+      <% } %><% } %>
+      <li>
+        <% if (user) { %> <% if (user.role === 'admin') { %>
+        <a href="#" class="desktop-item">Ticket Options</a>
+        <input type="checkbox" id="showDrop" />
+        <label for="showDrop" class="mobile-item">Ticket Options</label>
+        <ul class="drop-menu">
+          <li><a href="/admin/ticket-type">Types</a></li>
+          <li><a href="/admin/ticket-status">Status</a></li>
+          <li><a href="/admin/ticket-project">Projects</a></li>
+        </ul>
+      </li>
+      <% } %> <% } %>
+      <li>
+        <% if (user) { %>
+        <form action="/logout" method="POST">
+          <button class="logout">Logout</button>
+        </form>
+        <% } %>
+      </li>
+    </ul>
+    <label for="menu-bttn" class="bttn menu-bttn"
+      ><i class="fas fa-bars"></i
+    ></label>
+  </div>
+</nav>
