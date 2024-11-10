@@ -35,6 +35,7 @@ async function signup(req, res, next) {
     }
     await user.createUser();
     req.flash("success", "Account Created Successfully");
+
     return res.redirect("/");
 
   } catch (error) {
@@ -65,7 +66,20 @@ async function login(req, res, next) {
     req.flash("error", "Invalid Email or Password")
     return res.redirect("/login")
   }
+
+    // Setting user data in session
+    req.session.user = {
+      id: existingUser.id,
+      email: existingUser.email,
+      role: existingUser.role, 
+    };
+
   res.redirect("/")
+}
+
+function logout(req, res) {
+  req.session.user = null;
+  res.redirect("/login");
 }
 
 module.exports = {
@@ -73,4 +87,5 @@ module.exports = {
   getSignup: getSignup,
   signup: signup,
   login: login,
+  logout: logout,
 };
