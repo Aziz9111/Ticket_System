@@ -3,13 +3,14 @@
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
+<link rel="stylesheet" href="/styles/update.css" />
 
 
 <body>
   <%- include('../includes/header') %>
   <main>
     <form class="validation-form" action="/agent/ticket/<%= ticket.id %>" method="POST">
-      <h1>Ticket Update</h1>
+      <h1>الرد على التذكرة</h1>
       <ul id="tickets-grid">
         <% if (messages.success ) {%>
           <div class="success">
@@ -20,32 +21,32 @@
           <% } %>        <li>
            <article class="ticket-item">
                <div class="ticket-item-content">
-                   <h2>Ticket Title: <%= ticket.title %></h2>
-                   <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
-                   <p>Description: <%= ticket.description %></p>
+                   <h2>عنوان التذكرة: <%= ticket.title %></h2>
+                   <p style="font-weight: bold; margin-top: 2rem;">من قبل <%= ticket.user_email  %></p>
+                   <p>وصف التذكرة: <%= ticket.description %></p>
                    <% if (image && userId !== 4) { %>
-                   <p>Image Attached: <img src="<%= image %>" alt="Screenshot"></p>
+                   <p>الصورة المضافة: <img src="<%= image %>" alt="Screenshot"></p>
                    <% } else { %>
-                    <p>No Image Attached To This Ticket</p>
+                    <p>لايوجد صورة مضافة لهذه التذكرة</p>
                     <% } %>
-                   <p>Priority: <%= ticket.priority %></p>
-                   <p>Project: <%= (projects[0].find(project => project.id === ticket.project) || {}).name || "Unknown Status" %></p>
-                   <p>Type: <%= (types[0].find(type => type.id === ticket.type) || {}).name || "Unknown Status" %></p>
-                   <p>Status: <%= (statuses[0].find(status => status.id === ticket.status) || {}).name || "Unknown Status" %></p>
+                   <p>الاهمية: <%= ticket.priority %></p>
+                   <p>المشروع: <%= (projects[0].find(project => project.id === ticket.project) || {}).name || "Unknown Status" %></p>
+                   <p>النوع: <%= (types[0].find(type => type.id === ticket.type) || {}).name || "Unknown Status" %></p>
+                   <p>الحالة: <%= (statuses[0].find(status => status.id === ticket.status) || {}).name || "Unknown Status" %></p>
                    <hr>
                    <% if (Array.isArray(replies) && replies.length > 0) { %>
                     <% replies.forEach((el, idx) => { %> 
-                      <p>Admin Reply <%= idx + 1 %>: <%= el.name %></p>
+                      <p>الرد  <%= idx + 1 %> من الادمن : <%= el.name %></p>
                     <% }) %>
                   <% } else { %>
-                    <p>No replies from admin yet.</p>
+                    <p>لا ردود من الادمن.</p>
                   <% } %>
                   <% if (adminImage) {%>
-                  <p>Admin Attachment: <img src="<%= adminImage %>"></p>
+                  <p>اضافات الادمن: <img src="<%= adminImage %>"></p>
                   <% } %>
                   <hr>
       <div>
-        <label for="reply">Reply:</label>
+        <label for="reply">الرد:</label>
         <textarea
           type="text"
           id="reply"
@@ -56,7 +57,7 @@
 
 <!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
  -->      
-      <button type="submit" class="btn">Send</button>
+      <button type="submit" class="btn">ارسال</button>
     </form>
   </main>
   <%- include("../includes/footer") %>

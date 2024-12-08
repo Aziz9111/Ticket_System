@@ -64,4 +64,18 @@ router.post(
   adminController.postAssignTicket
 );
 
+router.get("/admin/dashboard", authoriz("admin"), adminController.dashboard);
+
+router.get("/admin/charts", authoriz("admin"), adminController.charts);
+
+router.get("/admin/charts-data", authoriz("admin"), adminController.chartsData);
+
+router.get("/admin/charts-data", authoriz("admin"), adminController.chartsData);
+
+router.get("/admin/charts-data", authoriz("admin"), adminController.chartsData);
+
+router.get("/admin/tables", authoriz("admin"), adminController.tables);
+
+router.get("/admin/search", authoriz("admin"), adminController.search);
+
 module.exports = router;

@@ -20,15 +20,20 @@ app.use(express.static("public")); // Serve static files (e.g. CSS files)
 
 const sessionConfig = sessionStoreConfig();
 
-app.use(session(sessionConfig))
-app.use(flash())
+app.use(session(sessionConfig));
+app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
 
-app.use('/images', express.static(path.join('C:', 'Users', 'abdul', 'Documents', 'Projects', 'Images')));
+app.use(
+  "/images",
+  express.static(
+    path.join("C:", "Users", "abdul", "Documents", "Projects", "Images")
+  )
+);
 
 app.use(baseRoute);
 app.use(authRoute);
@@ -43,4 +48,5 @@ app.use(function (error, req, res, next) {
   res.status(500).render("500");
 });
 
-app.listen(3000);
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port ${port}`));

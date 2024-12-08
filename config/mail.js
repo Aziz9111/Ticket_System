@@ -14,8 +14,6 @@ const transport = nodemailer.createTransport({
 });
 
 const sendEmail = async ({ userEmail, ticketId }) => {
-  /* console.log("Sending email to:", userEmail); // To see if it working correctlly
-    console.log("Ticket ID:", ticketId); */
   if (!userEmail) {
     throw new Error("User email is not defined.");
   }

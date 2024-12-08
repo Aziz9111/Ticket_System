@@ -3,13 +3,14 @@
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
+<link rel="stylesheet" href="/styles/update.css" />
 
 
 <body>
   <%- include('../includes/header') %>
   <main>
     <form class="validation-form" action="/admin/ticket/<%= ticket.id %>" method="POST">
-      <h1>Ticket Update</h1>
+      <h1>تعديل التذكرة</h1>
       <ul id="tickets-grid">
         <% if (messages.success ) {%>
           <div class="success">
@@ -21,37 +22,37 @@
         <li>
         <article class="ticket-item">
             <div class="ticket-item-content">
-                <h2>Ticket Title: <%= ticket.title %></h2>
-                <p style="font-weight: bold; margin-top: 2rem;">By <%= ticket.user_email  %></p>
-                <p>Description: <%= ticket.description %></p>
+                <h2>عنوان التذكرة: <%= ticket.title %></h2>
+                <p style="font-weight: bold; margin-top: 2rem;">من قبل <%= ticket.user_email  %></p>
+                <p>الوصف: <%= ticket.description %></p>
                 <% if (image) { %>
-                  <p>Image Attached: <img src="<%= image %>" alt="Screenshot"></p>
+                  <p>الصورة المضافة: <img src="<%= image %>" alt="Screenshot"></p>
                   <% } else { %>
-                   <p>No Image Attached To This Ticket</p>
+                   <p>لايوجد صورة مضافة لهذه التذكرة</p>
                    <% } %>
                 <hr>
                 <% if (Array.isArray(replies) && replies.length > 0) { %>      
                   <% replies.forEach((el, idx) => { %>
                     <% if (el.reply_from === "admin") { %>
-                      <p>Admin Reply <%= idx + 1 %>: <%= el.name %></p>
+                      <p>الرد  <%= idx + 1 %> من الادمن : <%= el.name %></p>
                     <% } else if (el.reply_from === "agent") { %>
-                      <p>Agent Reply <%= idx + 1 %>: <%= el.name %></p>
+                      <p>الرد  <%= idx + 1 %> من العميل : <%= el.name %></p>
                     <% } %>
                   <% }) %>
                 <% } else { %>
-                  <p>No replies yet.</p>
+                  <p>لا ردود الى الان.</p>
                 <% } %>
               </div>
               <hr>
         </article>
 
       <div>
-        <label for="priority">Priority:</label>
+        <label for="priority">الاهمية:</label>
         <input type="priority" id="priority" name="priority" value=""  />
       </div>
 
       <div>
-        <label for="status">Status:</label>
+        <label for="status">الحالة:</label>
         <select id="status" name="status"> 
           <% statuses.forEach(function(status) { %>
             <option value="<%= status.id %>" <%= ticket.status === status.id ? "selected" : "" %> >
@@ -59,11 +60,11 @@
             </option>
           <% }) %>
         </select>
-        <a style="display: inline-flex;" class="btn" href="/admin/ticket-status">Add</a>
+        <a style="display: inline-flex;" class="btn" href="/admin/ticket-status">إضافة</a>
       </div>
 
       <div>
-        <label for="project">Project:</label>
+        <label for="project">المشروع:</label>
         <select id="project" name="project"> 
           <% projects.forEach(function(project) { %>
             <option value="<%= project.id %>" <%= ticket.project === project.id ? "selected" : "" %> >
@@ -71,11 +72,11 @@
             </option>
           <% }) %>
         </select>
-        <a style="display: inline-flex;" class="btn" href="/admin/ticket-project">Add</a>
+        <a style="display: inline-flex;" class="btn" href="/admin/ticket-project">إضافة</a>
       </div>
 
       <div>
-        <label for="type">Type:</label>
+        <label for="type">النوع:</label>
         <select id="type" name="type"> 
           <% types.forEach(function(type) { %>
             <option value="<%= type.id %>" <%= ticket.type === type.id ? "selected" : "" %> >
@@ -83,13 +84,13 @@
             </option>
           <% }) %>
         </select>
-        <a style="display: inline-flex;" class="btn" href="/admin/ticket-type">Add</a>
+        <a style="display: inline-flex;" class="btn" href="/admin/ticket-type">إضافة</a>
       </div>
 
 
 <!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>
  -->      
-      <button type="submit" class="btn">Update</button>
+      <button type="submit" class="btn">تعديل</button>
     </form>
   </main>
   <%- include("../includes/footer") %>

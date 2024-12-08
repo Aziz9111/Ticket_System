@@ -45,8 +45,9 @@ async function postTicket(req, res, next) {
 
 async function getAllTickets(req, res, next) {
   let tickets;
+  const email = req.session.user.email;
   try {
-    tickets = await Ticket.findAll();
+    tickets = await Ticket.findByEmail(email);
     res.render("tickets/ticket-list", { tickets: tickets });
   } catch (error) {
     next(error);
@@ -69,11 +70,14 @@ async function postOneTicket(req, res, next) {
     if (!ticket) {
       // If no ticket is found, display an error and redirect back to inquiry form
       req.flash("error", "Ticket not found or email does not match.");
+
       return res.redirect("/ticket/inquiry");
     }
 
     // If ticket is found, redirect to the detailed view
-    return res.redirect(`/ticket/${ticketId}`);
+    return res.redirect(
+      `/ticket-inquiry/${ticketId}?email=${encodeURIComponent(email)}`
+    );
   } catch (error) {
     console.error("Error in postOneTicket:", error);
     next(error);
@@ -85,7 +89,6 @@ async function viewTicket(req, res, next) {
   let ticket;
   let statuses;
   let replies;
-  let userEmail;
 
   try {
     // Find ticket by ID only, no need to check email here
@@ -118,6 +121,36 @@ async function viewTicket(req, res, next) {
   }
 }
 
+async function viewTicketInquiry(req, res, next) {
+  const ticketId = req.params.id;
+  const email = req.query.email; // email passed as a query parameter from postOneTicket
+  let ticket, statuses, replies;
+
+  try {
+    // Find ticket by ID and verify the email matches the ticket creator's email
+    ticket = await Ticket.findOne(ticketId, email);
+
+    if (!ticket) {
+      req.flash("error", "Access denied or ticket not found.");
+      return res.redirect("/ticket/inquiry");
+    }
+
+    statuses = await Ticket.getStatuss();
+    [replies] = await Ticket.getReplyToCustomer(ticketId);
+
+    const messages = req.flash();
+    res.render("tickets/detailed-ticket", {
+      ticket: ticket,
+      messages: messages,
+      statuses: statuses,
+      replies: replies,
+    });
+  } catch (error) {
+    console.error("Error in viewTicketInquiry:", error);
+    next(error);
+  }
+}
+
 module.exports = {
   getTicket: getTicket,
   postTicket: postTicket,
@@ -125,4 +158,5 @@ module.exports = {
   getOneTicket: getOneTicket,
   postOneTicket: postOneTicket,
   viewTicket: viewTicket,
+  viewTicketInquiry: viewTicketInquiry,
 };

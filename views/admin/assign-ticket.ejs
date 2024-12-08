@@ -1,7 +1,6 @@
 <%- include("../includes/head") , { title: 'Assign Ticket' } %>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="/styles/validation.css" />
-<link rel="stylesheet" href="/styles/ticket.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
 
 
@@ -13,7 +12,7 @@
     method="POST" 
     enctype="multipart/form-data">
     
-      <h1>Assign Ticket</h1>
+      <h1>تعين التذكرة</h1>
       <ul id="tickets-grid">
         <% if (messages.success) { %>
           <div class="success">
@@ -26,14 +25,14 @@
         <li>
           <div style="display: inline-flex;">
             <input type="radio" id="agent-option" name="recipient" value="agent" onclick="toggleRecipient()" checked>
-            <label for="agent-option">Agent</label>
+            <label for="agent-option">العميل</label>
             <input type="radio" id="customer-option" name="recipient" value="customer" onclick="toggleRecipient()">
-            <label for="customer-option">Customer</label>
+            <label for="customer-option">الزبون</label>
           </div>
         </li>
 
         <li id="agent-select-container">
-          <label for="agent">Agent:</label>
+          <label for="agent">العميل:</label>
           <select id="agent" name="agent">
             <% agent.forEach(function(agent) { %>
               <option value="<%= agent.id %>" <%= ticket.agent === agent.id ? "selected" : "" %> >
@@ -44,16 +43,16 @@
         </li>
 
         <li id="agent-reply-container">
-          <label for="agent-reply">Reply to Agent:</label>
+          <label for="agent-reply">الرد على العميل:</label>
           <textarea id="agent-reply" name="replyToAgent"></textarea>
         </li>
 
         <li id="customer-reply-container" style="display: none;">
-          <label for="customer-reply">Reply to Customer:</label>
+          <label for="customer-reply">الرد على الزبون:</label>
           <textarea id="customer-reply" name="replyToCustomer"></textarea>
         </li>
 
-        <label for="image">Photo:</label>
+        <label for="image">صورة:</label>
         <input
           type="file"
           id="image"
@@ -62,7 +61,7 @@
           accept="image/png, image/jpg"
         />
 
-        <button type="submit" class="btn">Send</button>
+        <button type="submit" class="btn">ارسال</button>
     </form>
   </main>
   <%- include("../includes/footer") %>

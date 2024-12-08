@@ -1,0 +1,179 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Body and Container */
+body {
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 0.1px;
+  direction: rtl; /* Set the document flow to right-to-left */
+}
+
+main {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+.validation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Heading */
+h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Error Message */
+.error {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* Labels and Inputs */
+label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+  display: inline;
+}
+
+.req {
+  color: #d32f2f;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Buttons */
+button.btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+button.btn:hover {
+  background-color: #45a049;
+}
+
+a.btn {
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+a.btn:hover {
+  text-decoration: underline;
+}
+
+textarea {
+  font-size: 14px;
+  padding: 20px;
+  padding-left: 270px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical; /* Allow vertical resizing only */
+  min-height: 100px; /* Default height for better visibility */
+  max-height: 300px; /* Limit height to prevent overly large fields */
+  background-color: #f9f9f9;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  border-color: #007bff; /* Change border color on focus */
+  outline: none;
+  background-color: #fff;
+}
+
+/* Paragraph for Login */
+p {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Mobile-Specific Styles */
+@media (max-width: 768px) {
+  main {
+    padding: 10px;
+    margin: 5px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  input,
+  button.btn,
+  textarea {
+    font-size: 12px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 8px;
+    margin: 5px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  input,
+  button.btn,
+  textarea {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  textarea {
+    min-height: 60px;
+  }
+}

@@ -1,29 +1,29 @@
 <%- include("../includes/head") , { title: 'Signup Page' }%>
-<link rel="stylesheet" href="/styles/validation.css" />
+<link rel="stylesheet" href="/styles/auth.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
 
 <body>
   <%- include('../includes/header') %>
   <main>
     <form class="validation-form" action="/signup" method="POST">
-      <h1>Signup</h1>
+      <h1>إنشاء حساب</h1>
       <% if (messages.error ) {%>
       <div class="error">
         <li class="fa fa-times-circle"><%= messages.error %></li>
       </div>
       <% } %>
       <div>
-        <label for="username">Enter Your Name:</label>
+        <label for="username">الاسم:</label>
         <span class="req">*</span>
         <input type="text" id="username" name="username" value="" required />
       </div>
       <div>
-        <label for="email">Enter Your Email:</label>
+        <label for="email">الايميل:</label>
         <span class="req">*</span>
         <input type="email" id="email" name="email" value="" required />
       </div>
       <div>
-        <label for="Password">Enter Your Password:</label>
+        <label for="Password">كلمة المرور:</label>
         <span class="req">*</span>
         <input
           type="password"
@@ -35,7 +35,7 @@
         />
       </div>
       <div>
-        <label for="confirmedPassword">Confirm Your Password:</label>
+        <label for="confirmedPassword">تاكيد كلمة المرور:</label>
         <span class="req">*</span>
         <input
           type="password"
@@ -47,8 +47,8 @@
         />
       </div>
       <div>
-        <button class="btn">Signup</button>
-        <p>If you have an acoount <a class="btn" href="/login">Login</a></p>
+        <button class="btn">انشئ حساب</button>
+        <p>اذا كان لديك حساب <a class="btn" href="/login">سجل دخول</a></p>
       </div>
     </form>
   </main>

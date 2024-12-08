@@ -1,43 +1,80 @@
 <nav>
   <div class="wrapper">
-    <div class="logo"><a href="/">Ticket System</a></div>
-    <input type="radio" name="slider" id="menu-bttn" />
-    <input type="radio" name="slider" id="close-bttn" />
+    <div class="logo"><a href="/">برنامج التذاكر</a></div>
+
+<!--     <input type="checkbox" id="menu-toggle" class="menu-toggle-checkbox">
+ -->
+    <!-- Mobile menu toggle input for opening the menu -->
+    <div id="menu-bttn" class="menu-toggle" >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
     <ul class="nav-links">
-      <label for="close-bttn" class="bttn close-bttn"
-        ><i class="fas fa-times"></i
-      ></label>
-      <li><a href="/">Home</a></li>
+      <!-- Close button for mobile menu -->
+      <label for="menu-bttn" class="bttn close-bttn">
+        <i class="fas fa-times"></i>
+      </label>
+
+      <li><a href="/">الرئيسية</a></li>
+
       <% if (!user || user.role == null) { %>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/signup">Signup</a></li>
-      <% } %> <% if (user) { %> <% if (user.role === 'admin') { %>
-      <li><a href="/admin/tickets">Tickets</a></li>
-      <% } else if (user.role === 'agent') {%>
-      <li><a href="/agent/tickets">Tickets</a></li>
-      <% } %><% } %>
-      <li>
-        <% if (user) { %> <% if (user.role === 'admin') { %>
-        <a href="#" class="desktop-item">Ticket Options</a>
-        <input type="checkbox" id="showDrop" />
-        <label for="showDrop" class="mobile-item">Ticket Options</label>
-        <ul class="drop-menu">
-          <li><a href="/admin/ticket-type">Types</a></li>
-          <li><a href="/admin/ticket-status">Status</a></li>
-          <li><a href="/admin/ticket-project">Projects</a></li>
-        </ul>
-      </li>
-      <% } %> <% } %>
+        <li><a href="/login">تسجيل الدخول</a></li>
+        <li><a href="/signup">إنشاء حساب</a></li>
+      <% } %>
+
+      <% if (user) { %>
+        <% if (user.role === 'admin') { %>
+          <li><a href="/admin/tickets">التذاكر</a></li>
+        <% } else if (user.role === 'agent') { %>
+          <li><a href="/agent/tickets">التذاكر</a></li>
+        <% } else if (user.role === 'customer') { %>
+          <li><a href="/tickets">التذاكر</a></li>
+        <% } %>
+        <li>
+          <% if (user.role === 'admin') { %>
+            <li><a href="/admin/dashboard">لوحة التحكم</a></li>
+            <li>
+              <form action="/admin/search" method="GET" class="search-form">
+                <input type="text" name="search" placeholder="Search Tickets..." required />
+                <button type="submit" class="search-btn"></button>
+              </form>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="desktop-item">عمليات التذاكر</a>
+              <ul class="drop-menu">
+                <li><a href="/admin/ticket-type">نوع</a></li>
+                <li><a href="/admin/ticket-status">حالة</a></li>
+                <li><a href="/admin/ticket-project">مشروع</a></li>
+              </ul>
+            </li>
+          <% } %>
+        </li>
+      <% } %>
+
       <li>
         <% if (user) { %>
-        <form action="/logout" method="POST">
-          <button class="logout">Logout</button>
-        </form>
+          <form action="/logout" method="POST">
+            <button class="logout">تسجيل خروج</button>
+          </form>
         <% } %>
       </li>
     </ul>
-    <label for="menu-bttn" class="bttn menu-bttn"
-      ><i class="fas fa-bars"></i
-    ></label>
   </div>
 </nav>
+
+<!-- JS for Mobile Menu Toggle -->
+<script>
+const menuToggle = document.getElementById('menu-bttn');
+const navLinks = document.querySelector('.nav-links');
+
+// Toggle nav menu visibility on click of the hamburger icon
+menuToggle.addEventListener('click', () => navLinks.classList.toggle('show'));
+
+// Close the menu when clicking on any nav link
+document.querySelectorAll('.nav-links li a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('show'));
+});
+
+</script>

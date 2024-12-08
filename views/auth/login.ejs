@@ -1,25 +1,25 @@
 <%- include("../includes/head") , { title: 'Login Page' } %>
-<link rel="stylesheet" href="/styles/validation.css" />
+<link rel="stylesheet" href="/styles/auth.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
 
 <body>
   <%- include('../includes/header') %>
   <main>
     <form class="validation-form" action="/login" method="POST">
-      <h1>Login</h1>
+      <h1>تسجيل الدخول</h1>
       <% if (messages.error ) {%>
       <div class="error">
         <li class="fa fa-times-circle"><%= messages.error %></li>
       </div>
       <% } %>
       <div>
-        <label for="email">Enter Your Email:</label>
+        <label for="email">الايميل:</label>
         <span class="req">*</span>
         <input type="email" id="email" name="email" value="" required />
       </div>
 
       <div>
-        <label for="Password">Enter Your Password:</label>
+        <label for="Password">كلمة المرور:</label>
         <span class="req">*</span>
         <input
           type="password"
@@ -29,10 +29,8 @@
           required
         />
       </div>
-      <button class="btn">Login</button>
-      <p>
-        If you don't have an account <a class="btn" href="/signup"> Signup</a>
-      </p>
+      <button class="btn">تسجيل</button>
+      <p>اذا لم يكن لديك حساب <a class="btn" href="/signup"> انشئ حساب</a></p>
     </form>
   </main>
   <%- include("../includes/footer") %>

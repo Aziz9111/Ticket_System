@@ -1,91 +1,185 @@
-#tickets-grid {
-    margin: 2rem auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-    gap: 1rem;
-  }
+/* #tickets-grid {
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
 
-  ul,
+ul,
 ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-  
-  .ticket-item {
-    border-radius: 4px;
-    text-align: center;
-    background-color: white;
-    overflow: hidden;
-  }
-  
-  .ticket-item img {
-    width: 100%;
-    height: 10rem;
-    object-fit: contain;
-  }
-  
-  .ticket-item-content {
-    padding: 1rem;
-  }
-  
-  .ticket-item-content h2 {
-    font-size: 1.15rem;
-    margin: 0.5rem 0;
-  }
-  
-  .ticket-item-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    justify-content: center;
-  }
-  
+
+.ticket-item {
+  border-radius: 4px;
+  text-align: center;
+  background-color: white;
+  overflow: hidden;
+}
+
+.ticket-item img {
+  width: 100%;
+  height: 10rem;
+  object-fit: contain;
+}
+
+.ticket-item-content {
+  padding: 1rem;
+}
+
+.ticket-item-content h2 {
+  font-size: 1.15rem;
+  margin: 0.5rem 0;
+}
+
+.ticket-item-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+#ticket-details header {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: white;
+  gap: 2rem;
+  border-radius: 4px;
+}
+
+#ticket-details img {
+  width: 100%;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid white;
+}
+
+#ticket-info {
+  text-align: center;
+}
+
+#ticket-description {
+  background-color: white;
+  padding: 2rem;
+  white-space: pre-wrap;
+  border-radius: 4px;
+  font-size: large;
+}
+
+@media (min-width: 48rem) {
   #ticket-details header {
-    margin-top: 2rem;
-    padding: 2rem;
-    background-color: white;
-    gap: 2rem;
-    border-radius: 4px;
+    display: flex;
   }
-  
+
   #ticket-details img {
-    width: 100%;
-    height: 6rem;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid white;
+    width: 20rem;
+    height: 15rem;
+    transform: rotateZ(-10deg);
+    margin: 2rem;
   }
-  
+
   #ticket-info {
-    text-align: center;
+    text-align: left;
   }
-  
-  #ticket-description {
-    background-color: white;
-    padding: 2rem;
-    white-space: pre-wrap;
-    border-radius: 4px;
+
+  #ticket-info p {
     font-size: large;
   }
-  
-  @media (min-width: 48rem) {
-    #ticket-details header {
-      display: flex;
-    }
-  
-    #ticket-details img {
-      width: 20rem;
-      height: 15rem;
-      transform: rotateZ(-10deg);
-      margin: 2rem;
-    }
-  
-    #ticket-info {
-      text-align: left;
-    }
-  
-    #ticket-info p {
-      font-size: large;
-    }
+} */
+/* Responsive table container */
+body {
+  direction: rtl;
+}
+
+main {
+  padding-top: 3rem;
+}
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 600px; /* Ensure the table doesn't shrink too much */
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+/* Highlight rows on hover */
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Button links styling */
+.btn-link {
+  color: blue;
+  text-decoration: underline;
+}
+/* Buttons */
+button.search-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /*   width: 100%;
+ */
+}
+
+button.search-btn:hover {
+  background-color: #45a049;
+}
+
+a.btn {
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+a.btn:hover {
+  text-decoration: underline;
+}
+
+input {
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  th,
+  td {
+    font-size: 14px;
+    padding: 8px;
   }
+
+  table {
+    font-size: 14px;
+  }
+
+  input {
+    font-size: 12px;
+  }
+}

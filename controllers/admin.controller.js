@@ -8,9 +8,32 @@ async function getAllTickets(req, res, next) {
   let tickets;
   try {
     tickets = await Ticket.findAll();
-    res.render("admin/ticket-list", { tickets: tickets });
+    res.render("admin/ticket-list", {
+      tickets: tickets,
+    });
   } catch (error) {
     next(error);
+  }
+}
+
+async function search(req, res, next) {
+  const searchQuery = req.query.query || ""; // Default to empty string if no query
+
+  if (!searchQuery.trim()) {
+    // If no valid search query, redirect to the tickets list page
+    return res.redirect("/admin/tickets");
+  }
+
+  try {
+    // Call the Ticket model's searchAll method to get the results
+    const tickets = await Ticket.searchAll(searchQuery);
+
+    // Render the result with the tickets
+    res.render("admin/ticket-list", { tickets });
+  } catch (err) {
+    // Catch any errors and pass them to the error handler
+    console.error(err);
+    next(err);
   }
 }
 
@@ -230,6 +253,123 @@ async function postAssignTicket(req, res, next) {
   }
 }
 
+async function dashboard(req, res) {
+  try {
+    const allUsers = (await Ticket.totalCreatedTicketUsers())[0].total_users;
+    const newUsers = (await Ticket.newUsersLastMonth())[0].new_users_last_month;
+    const allTickets = (await Ticket.totalCreatedTickets())[0].total_tickets;
+    const newTickets = (await Ticket.newTicketsLastMonth())[0]
+      .new_tickets_last_month;
+    res.render("admin/dashboard/index", {
+      allUsers,
+      newUsers,
+      allTickets,
+      newTickets,
+    });
+  } catch (error) {}
+}
+
+async function chartsData(req, res) {
+  try {
+    const statusCounts = await Ticket.getStatusCounts();
+    const typeCounts = await Ticket.getTypesCounts();
+    const projectCounts = await Ticket.getProjectsCounts();
+    const userCounts = await Ticket.getUsersCounts();
+
+    // Transform data into the format required for the chart
+    const chartData = statusCounts.map((status) => ({
+      label: status.name,
+      data: status.count,
+    }));
+
+    const typeData = typeCounts.map((type) => ({
+      label: type.name,
+      data: type.count,
+    }));
+
+    const projectData = projectCounts.map((project) => ({
+      label: project.name,
+      data: project.count,
+    }));
+
+    const userData = userCounts.map((user) => ({
+      label: user.user_email,
+      data: user.count,
+    }));
+
+    const allChartData = {
+      chartData,
+      typeData,
+      projectData,
+      userData,
+    };
+
+    // Send the chart data as JSON
+    res.json(allChartData); // Send the chart data as JSON
+  } catch (error) {
+    console.error("Error fetching chart data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+async function charts(req, res) {
+  try {
+    // Fetch ticket status counts
+    const statusCounts = await Ticket.getStatusCounts();
+    const typeCounts = await Ticket.getTypesCounts();
+    const projectCounts = await Ticket.getProjectsCounts();
+    const userCounts = await Ticket.getUsersCounts();
+
+    // Transform data into the format required for the chart
+    const chartData = statusCounts.map((status) => ({
+      label: status.name,
+      data: status.count,
+    }));
+
+    const typeData = typeCounts.map((type) => ({
+      label: type.name,
+      data: type.count,
+    }));
+
+    const projectData = projectCounts.map((project) => ({
+      label: project.name,
+      data: project.count,
+    }));
+
+    const userData = userCounts.map((user) => ({
+      label: user.user_email,
+      data: user.count,
+    }));
+    // Pass data to the template
+    res.render("admin/dashboard/charts", {
+      chartData,
+      typeData,
+      userData,
+      projectData,
+    });
+  } catch (error) {
+    console.error("Error fetching chart data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+async function tables(req, res) {
+  try {
+    // Fetch ticket status counts
+    const userCounts = await Ticket.getUsersCounts();
+    // Fetch all tickets in last month
+    const ticketsLastMonth = await Ticket.ticketsLastMonth();
+
+    // Pass data to the template
+    res.render("admin/dashboard/tables", {
+      userData: userCounts,
+      newTickets: ticketsLastMonth,
+    });
+  } catch (error) {
+    console.error("Error fetching chart data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+}
 module.exports = {
   getAllTickets: getAllTickets,
   viewTicket: viewTicket,
@@ -242,4 +382,9 @@ module.exports = {
   postTicketStatus: postTicketStatus,
   getAssignTicket: getAssignTicket,
   postAssignTicket: postAssignTicket,
+  dashboard: dashboard,
+  tables: tables,
+  charts: charts,
+  chartsData: chartsData,
+  search: search,
 };

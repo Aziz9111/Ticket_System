@@ -12,28 +12,35 @@ class User {
     await db.query("SELECT * FROM users");
   }
 
-// Function to get user by email
-async getUserEmail(userEmail) {
-  // Assuming db.query returns a Promise
-  const [email] = await db.query("SELECT * FROM users WHERE email = ?", [userEmail]); // Pass email as an array
-  return email.length > 0 ? email[0] : null; // Return the first row or null if no user found
-}
+  // Function to get user by email
+  async getUserEmail(userEmail) {
+    // Assuming db.query returns a Promise
+    const [email] = await db.query("SELECT * FROM users WHERE email = ?", [
+      userEmail,
+    ]); // Pass email as an array
+    return email.length > 0 ? email[0] : null; // Return the first row or null if no user found
+  }
 
-static async getUserByEmail(userEmail) {
-  // Assuming db.query returns a Promise
-  const [email] = await db.query("SELECT * FROM users WHERE email = ?", [userEmail]); // Pass email as an array
-  return email.length > 0 ? email[0] : null; // Return the first row or null if no user found
-}
+  static async getUserByEmail(userEmail) {
+    // Assuming db.query returns a Promise
+    const [email] = await db.query("SELECT * FROM users WHERE email = ?", [
+      userEmail,
+    ]); // Pass email as an array
+    return email.length > 0 ? email[0] : null; // Return the first row or null if no user found
+  }
 
-/* // Function to check if user exists
+  /* // Function to check if user exists
 async userExist(email) {
   const user = await this.getUserEmail(email);
   return user !== null; // Return true if user exists, false otherwise
 } */
 
   static async findById(id) {
-   const [data] = await db.query("SELECT id, name, email, role FROM users WHERE id = ?", [id]);
-   return [data]
+    const [data] = await db.query(
+      "SELECT id, name, email, role FROM users WHERE id = ?",
+      [id]
+    );
+    return [data];
   }
 
   static async admin() {
@@ -42,8 +49,8 @@ async userExist(email) {
   }
 
   static async agent() {
-   const [agent] = await db.query("SELECT * FROM users WHERE role = 'agent'");
-   return [agent];
+    const [agent] = await db.query("SELECT * FROM users WHERE role = 'agent'");
+    return [agent];
   }
 
   async createUser() {

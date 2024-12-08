@@ -1,25 +1,27 @@
 <%- include("../views/includes/head") , { title: 'Home Page' }%>
-<link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
+<link rel="stylesheet" href="/styles/validation.css" />
 <body>
   <%- include('../views/includes/header') %>
+
   <main>
     <% if (user) { %> <% if (user.role === 'admin') { %>
-    <h1>Welcome, Admin!</h1>
+    <h1>مرحبا, ادمن!</h1>
     <% } else if (user.role === 'agent') { %>
-    <h1>Welcome, Agent!</h1>
+    <h1>مرحبا, عميل!</h1>
     <% } else if (user.role === 'customer') { %>
-    <h1>Welcome, Customer!</h1>
+    <h1>مرحبا, مستخدم!</h1>
     <% } %> <% } else { %>
-    <h1>Welcome! Please log in to access your account.</h1>
+    <h1>مرحبا! الرجاء تسجيل الدخول.</h1>
     <% } %>
-    <h2>Do you have a problem?</h2>
-    <h3 style="margin-bottom: 1rem">File a ticket to help us solve it</h3>
-    <a class="btn" href="/create_ticket">File Ticket</a>
-    <a class="btn" href="/ticket/Inquiry">Ticket Inquiry</a>
+    <h2>هل لديك مشكة؟</h2>
+    <h3 style="margin-bottom: 1rem">ارفع تذكرة لنستطيع حلها</h3>
+    <a class="btn" href="/create_ticket">رفع تذكرة</a>
+    <hr />
+    <a class="btn" href="/ticket/Inquiry">البحث عن تذكرة</a>
     <% if (user) { %>
     <form action="/logout" method="POST">
-      <button class="btn" style="margin-top: 1rem">Logout</button>
+      <button class="btn" style="margin-top: 1rem">تسجل خروج</button>
     </form>
     <% } %>
   </main>

@@ -45,11 +45,21 @@ class Ticket {
     return new Ticket(data[0]);
   }
 
+  static async findByEmail(email) {
+    const [data] = await db.query("SELECT * FROM ticket WHERE user_email = ?", [
+      email,
+    ]);
+    if (data.length === 0) {
+      return null; // Return null if no ticket is found
+    }
+    return data.map((ticketData) => new Ticket(ticketData));
+  }
+
   async save() {
     try {
       const ticketData = [this.title, this.description, this.user_email];
       const result = await db.query(
-        "INSERT INTO ticket (title, description, user_email) VALUES (?, ?, ?)",
+        "INSERT INTO ticket (title, description, user_email, status_id) VALUES (?, ?, ?, 1)",
         ticketData
       );
 
@@ -258,6 +268,117 @@ class Ticket {
       );
     } catch (error) {
       console.error("Error saving image:", error);
+    }
+  }
+
+  static async getStatusCounts() {
+    const [results] = await db.query(`
+      SELECT status.name, COUNT(ticket.id) AS count
+      FROM ticket
+      JOIN status ON ticket.status_id = status.id
+      GROUP BY status.id;
+    `);
+    return results;
+  }
+
+  static async getTypesCounts() {
+    const [results] = await db.query(`
+      SELECT type.name, COUNT(ticket.id) AS count
+      FROM ticket
+      JOIN type ON ticket.type_id = type.id
+      GROUP BY type.id
+    `);
+    return results;
+  }
+
+  static async getUsersCounts() {
+    const [results] = await db.query(`
+      SELECT ticket.user_email, COUNT(ticket.id) AS count
+      FROM ticket
+      GROUP BY ticket.user_email
+      ORDER BY count DESC;
+    `);
+    return results;
+  }
+
+  static async getProjectsCounts() {
+    const [results] = await db.query(`
+      SELECT project.name, COUNT(ticket.id) AS count
+      FROM ticket
+      JOIN project ON ticket.project_id = project.id
+      GROUP BY project.name;
+
+    `);
+    return results;
+  }
+
+  static async totalCreatedTicketUsers() {
+    const [results] = await db.query(`
+      SELECT COUNT(distinct user_email) AS total_users FROM ticket;
+    `);
+    return results;
+  }
+  static async totalCreatedTickets() {
+    const [results] = await db.query(`
+      SELECT COUNT(*) AS total_tickets FROM ticket;
+    `);
+    return results;
+  }
+
+  static async newUsersLastMonth() {
+    const [results] = await db.query(`
+      SELECT COUNT(DISTINCT user_email) AS new_users_last_month
+      FROM ticket
+      WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+      AND YEAR(created_at) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
+    `);
+    return results;
+  }
+  static async newTicketsLastMonth() {
+    const [results] = await db.query(`
+      SELECT COUNT(*) AS new_tickets_last_month
+      FROM ticket
+      WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+      AND YEAR(created_at) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
+    `);
+    return results;
+  }
+  static async ticketsLastMonth() {
+    const [results] = await db.query(`
+      SELECT *
+      FROM ticket
+      WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+      AND YEAR(created_at) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
+    `);
+    return results;
+  }
+
+  static async searchAll(searchQuery = "") {
+    // If there's no search query, just return all tickets
+    if (!searchQuery.trim()) {
+      const [data] = await db.query("SELECT * FROM ticket");
+      return data.map((ticketData) => new Ticket(ticketData));
+    }
+
+    try {
+      // Construct the SQL query with the LIKE operator for partial matching
+      const query = `
+        SELECT * 
+        FROM ticket 
+        WHERE LOWER(title) LIKE ? OR LOWER(description) LIKE ?
+      `;
+
+      const searchTerm = `%${searchQuery.toLowerCase()}%`; // Use % for partial matching
+
+      // Execute the query with the search term
+      const [data] = await db.query(query, [searchTerm, searchTerm]);
+
+      // Return the mapped result as Ticket objects
+      return data.map((ticketData) => new Ticket(ticketData));
+    } catch (err) {
+      // Log any database errors
+      console.error("Database error during search:", err);
+      throw new Error("Database query failed");
     }
   }
 }
