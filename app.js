@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/images", express.static(path.join(__dirname, "Images")));
+app.use("/images", express.static(path.join("/home", "aziz", "Images")));
 
 app.use(baseRoute);
 app.use(authRoute);

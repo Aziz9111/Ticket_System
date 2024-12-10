@@ -18,7 +18,7 @@ const sendEmail = async ({ userEmail, ticketId }) => {
     throw new Error("User email is not defined.");
   }
   return await transport.sendMail({
-    from: "aziz.storage911@gmail.com",
+    from: "no-reply@mbit-sa.com",
     to: userEmail,
     subject: `Your Ticket Number is: #${ticketId}`,
     text: `Thank you for your submission! Your ticket number is: #${ticketId}.`,
