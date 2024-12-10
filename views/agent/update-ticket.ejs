@@ -24,7 +24,7 @@
                    <h2>عنوان التذكرة: <%= ticket.title %></h2>
                    <p style="font-weight: bold; margin-top: 2rem;">من قبل <%= ticket.user_email  %></p>
                    <p>وصف التذكرة: <%= ticket.description %></p>
-                   <% if (image && userId !== 4) { %>
+                   <% if (image && userId !== 2) { %>
                    <p>الصورة المضافة: <img src="<%= image %>" alt="Screenshot"></p>
                    <% } else { %>
                     <p>لايوجد صورة مضافة لهذه التذكرة</p>
