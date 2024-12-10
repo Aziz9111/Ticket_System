@@ -7,7 +7,7 @@ const maxSize = 1000 * 1000 * 2;
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, "../../Images")); // Save outside project root
+      cb(null, path.join("/home", "aziz", "Images")); // Save outside project root
     },
     filename: (req, file, cb) => {
       cb(null, uuid() + "-" + file.originalname);
