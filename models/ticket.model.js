@@ -105,8 +105,11 @@ class Ticket {
   }
 
   static async status(statusName) {
-    const [data] = await db.query("INSERT INTO status (name) VALUE (?)", [
-      statusName,
+    // Ensure the status is initially 'open' on creation
+    const finalStatus = statusName || "open"; // Default to 'open' if no status provided
+
+    const [data] = await db.query("INSERT INTO status (name) VALUES (?)", [
+      finalStatus,
     ]);
     return [data];
   }
