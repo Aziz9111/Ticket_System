@@ -28,8 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/images", express.static(path.join("/home", "aziz", "Images")));
-
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use(baseRoute);
 app.use(authRoute);
 app.use(ticketRoute);
