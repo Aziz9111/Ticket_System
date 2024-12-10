@@ -240,7 +240,11 @@ async function postAssignTicket(req, res, next) {
     }
 
     if (req.file && req.file.filename) {
-      const imagePath = path.join(__dirname, "../../Images", req.file.filename);
+      const imagePath = path.join(
+        __dirname,
+        "public/Images",
+        req.file.filename
+      );
       await Ticket.imageSave(imagePath, ticketId, req.session.user.id);
     }
 
