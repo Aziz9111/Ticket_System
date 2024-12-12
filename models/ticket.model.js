@@ -1,7 +1,6 @@
 const { query } = require("express");
 const db = require("../data/database");
 const path = require("path");
-const { agent } = require("./user.model");
 
 class Ticket {
   constructor(ticketData) {
