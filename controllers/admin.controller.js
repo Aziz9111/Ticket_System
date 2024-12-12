@@ -69,10 +69,12 @@ async function viewTicket(req, res, next) {
 
     const image = await Ticket.getImage(ticketId);
 
+    //console.log("image: ", image);
+
     if (image && image.length > 0 && image[0].path) {
       imageUrl = imageUpload.convertWindowsPathToUrl(image[0].path); // Assuming the image path is in `image[0].imagePath`
     }
-
+    //console.log("imageURL", imageUrl);
     const messages = req.flash();
 
     res.render("admin/update-ticket", {
@@ -228,6 +230,8 @@ async function postAssignTicket(req, res, next) {
     // Process reply to customer if provided
     if (replyToCustomer) {
       replyData = await Ticket.replyToCustomer(replyToCustomer, ticketId);
+      req.flash("success", "Ticket sent successfully.");
+      return res.redirect(`/admin/assign-ticket/${ticketId}`);
     }
 
     const [existingAssignment] = await Ticket.getExistingAssignment(

@@ -26,6 +26,12 @@ async function postTicket(req, res, next) {
     return res.redirect("/create_ticket");
   }
 
+  // Check if the uploaded file format is invalid
+  if (!imageFile && req.fileValidationError) {
+    req.flash("error", req.fileValidationError); // This will come from the multer config
+    return res.redirect("/create_ticket");
+  }
+
   try {
     const ticketId = await ticket.save();
     // Move email sending here

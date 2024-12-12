@@ -14,6 +14,21 @@ const upload = multer({
     },
   }),
   limits: { fileSize: maxSize /* bytes */ },
+  fileFilter: function (req, file, cb) {
+    // Check file type
+    const fileTypes = /jpg|jpeg|png/; // Allowed extensions
+    const extname = fileTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    ); // Check extension
+    const mimeType = fileTypes.test(file.mimetype); // Check MIME type
+
+    if (extname && mimeType) {
+      cb(null, true);
+    } else {
+      req.fileValidationError = "فقط .png, .jpg, و .jpeg  هي الصيغ المسومح بها";
+      cb(null, false);
+    }
+  },
 });
 
 const configuredMulterMiddleware = upload.single("image");

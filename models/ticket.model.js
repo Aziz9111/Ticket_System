@@ -9,7 +9,7 @@ class Ticket {
     this.description = ticketData.description;
     this.image = ticketData.image; // The name of image file
     this.imagePath = ticketData.image
-      ? path.join(__dirname, "../../Images", ticketData.image)
+      ? path.join(__dirname, "../public/Images", ticketData.image)
       : null;
     this.imageUrl = this.image ? `/images/${ticketData.image}` : null;
     this.user_email = ticketData.user_email;
@@ -60,6 +60,7 @@ class Ticket {
       const ticketData = [this.title, this.description, this.user_email];
       const result = await db.query(
         "INSERT INTO ticket (title, description, user_email, status_id) VALUES (?, ?, ?, 1)",
+        //The 1 meaning any ticket initally set to open, check that sataus_id = 1 is open.
         ticketData
       );
 
