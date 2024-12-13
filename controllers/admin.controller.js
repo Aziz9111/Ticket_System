@@ -227,10 +227,15 @@ async function postAssignTicket(req, res, next) {
       replyId = replyData.replyId; // Set replyId for the agent
     }
 
+    if (!agent) {
+      req.flash("erorr", "لا يوجد عملاء للان");
+      return res.redirect(`/admin/assign-ticket/${ticketId}`);
+    }
+
     // Process reply to customer if provided
     if (replyToCustomer) {
       replyData = await Ticket.replyToCustomer(replyToCustomer, ticketId);
-      req.flash("success", "Ticket sent successfully.");
+      req.flash("success", "تم الارسال بنجاح");
       return res.redirect(`/admin/assign-ticket/${ticketId}`);
     }
 
@@ -252,12 +257,11 @@ async function postAssignTicket(req, res, next) {
       await Ticket.imageSave(imagePath, ticketId, req.session.user.id);
     }
 
-    req.flash("success", "Ticket sent successfully.");
+    req.flash("success", "تم الارسال بنجاح");
     return res.redirect(`/admin/assign-ticket/${ticketId}`);
   } catch (error) {
-    console.error("Error sending ticket:", error);
-    req.flash("error", "Failed to send ticket.");
-    next(error);
+    req.flash("error", "فشل الارسال");
+    return res.redirect(`/admin/assign-ticket/${ticketId}`);
   }
 }
 
