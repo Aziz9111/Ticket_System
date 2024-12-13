@@ -222,7 +222,7 @@ async function postAssignTicket(req, res, next) {
   try {
     // Admin reply to agent
     // Process reply to agent if provided
-    if (replyToAgent) {
+    if (replyToAgent && agent) {
       replyData = await Ticket.replyToAgent(replyToAgent, ticketId);
       replyId = replyData.replyId; // Set replyId for the agent
     }
