@@ -225,9 +225,6 @@ async function postAssignTicket(req, res, next) {
     if (replyToAgent && agent) {
       replyData = await Ticket.replyToAgent(replyToAgent, ticketId);
       replyId = replyData.replyId; // Set replyId for the agent
-    } else {
-      req.flash("erorr", "لا يوجد عملاء للان");
-      return res.redirect(`/admin/assign-ticket/${ticketId}`);
     }
 
     // Process reply to customer if provided
