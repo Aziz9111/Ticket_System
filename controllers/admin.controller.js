@@ -260,8 +260,9 @@ async function postAssignTicket(req, res, next) {
     req.flash("success", "تم الارسال بنجاح");
     return res.redirect(`/admin/assign-ticket/${ticketId}`);
   } catch (error) {
+    console.error("Error sending ticket:", error);
     req.flash("error", "فشل الارسال");
-    return res.redirect(`/admin/assign-ticket/${ticketId}`);
+    next(error);
   }
 }
 
