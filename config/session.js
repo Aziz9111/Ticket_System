@@ -10,31 +10,28 @@ function sessionStore() {
     database: process.env.MYSQL_DB,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-	  schema: {
+    schema: {
       tableName: "session",
       columnNames: {
         session_id: "session_id",
         expires: "expires",
-        data: "data"
-      }
-    }
+        data: "data",
+      },
+    },
   });
   return store;
-
 }
 
-function sessionConfig() { 
+function sessionConfig() {
   return {
-  secret: process.env.MY_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: sessionStore(),
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 12,
+    secret: process.env.MY_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore(),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 3,
     },
-  }
-};
+  };
+}
 
 module.exports = sessionConfig;
-
-
