@@ -50,15 +50,13 @@
         <label for="email">الايميل الخاص بك: <span class="req">*</span></label>
         <input type="email" id="email" name="email" value="" required />
       </div>
-
-      <form action="?" method="POST">
-        <div
-          class="g-recaptcha"
-          data-sitekey="6LfaiJsqAAAAAPSDWEaYPXqJqdWLV-6pFYHNefG-
-        "
-        ></div>
-        <button type="submit" class="btn">إنشاء</button>
-      </form>
+      <div
+        class="g-recaptcha"
+        data-sitekey="6LfaiJsqAAAAAPSDWEaYPXqJqdWLV-6pFYHNefG-"
+        data-action="Create Ticket"
+      ></div>
+      <br />
+      <button type="submit" class="btn">إنشاء</button>
     </form>
   </main>
   <%- include("../includes/footer") %>
