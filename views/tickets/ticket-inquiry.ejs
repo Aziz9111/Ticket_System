@@ -25,6 +25,8 @@
           name="ticketId"
           value="<%= formData ? formData.ticketId : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال رقم الطلب')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
 
@@ -36,6 +38,8 @@
           name="email"
           value="<%= formData ? formData.email : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال البريد الإلكتروني')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
 

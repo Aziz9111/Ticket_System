@@ -13,7 +13,7 @@
       </div>
       <% } %>
       <div>
-        <label for="email">الايميل:</label>
+        <label for="email">البريد الإلكتروني:</label>
         <span class="req">*</span>
         <input
           type="email"
@@ -21,6 +21,8 @@
           name="email"
           value="<%= formData ? formData.email : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال البريد الإلكتروني')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
 
@@ -33,6 +35,8 @@
           name="password"
           value=""
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال كلمة المرور')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
       <button class="btn">تسجيل</button>

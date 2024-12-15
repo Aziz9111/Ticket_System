@@ -26,6 +26,8 @@
           name="title"
           value="<%= formData ? formData.title : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال العنوان')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
 
@@ -39,6 +41,8 @@
           name="description"
           required
           maxlength="1000"
+          oninvalid="this.setCustomValidity('الرجاء إدخال الوصف')"
+          oninput="this.setCustomValidity('')"
         >
 <%= formData ? formData.description : '' %></textarea
         >
@@ -65,6 +69,8 @@
           name="email"
           value="<%= formData ? formData.email : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال البريد الإلكتروني')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
       <div

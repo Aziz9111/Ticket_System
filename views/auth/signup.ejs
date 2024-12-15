@@ -22,6 +22,8 @@
           name="username"
           value="<%= formData ? formData.username : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال الاسم')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
       <div>
@@ -33,6 +35,8 @@
           name="email"
           value="<%= formData ? formData.email : '' %>"
           required
+          oninvalid="this.setCustomValidity('الرجاء إدخال البريد الإلكتروني')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
       <div>
@@ -45,6 +49,8 @@
           value=""
           required
           minlength="6"
+          oninvalid="this.setCustomValidity('الرجاء إدخال كلمة المرور')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
       <div>
@@ -57,6 +63,8 @@
           value=""
           required
           minlength="6"
+          oninvalid="this.setCustomValidity('الرجاء إدخال تاكيد كلمة المرور')"
+          oninput="this.setCustomValidity('')"
         />
       </div>
       <div
