@@ -1,6 +1,7 @@
 const Ticket = require("../models/ticket.model");
 const validation = require("../util/validation");
 const sendTicketEmail = require("../config/mail");
+const axios = require("axios");
 
 function getTicket(req, res) {
   const messages = req.flash();
@@ -8,13 +9,21 @@ function getTicket(req, res) {
 }
 
 async function postTicket(req, res, next) {
+  const title = req.body.title;
+  const description = req.body.description;
   const imageFile = req.file;
+  const image = imageFile ? imageFile.filename : null;
+  const email = req.body.email;
+  const recaptchaResponse = req.body["g-recaptcha-response"]; // Token from client
+  const secretKey = "6LfaiJsqAAAAACfyK8S8XF__mGdj2zXkzhaPGXyK"; // Replace with your secret key
   const ticket = new Ticket({
-    title: req.body.title,
-    description: req.body.description,
-    image: imageFile ? imageFile.filename : null,
-    user_email: req.body.email,
+    title: title,
+    description: description,
+    image: image,
+    user_email: email,
   });
+
+  req.session.formData = { title, description, image, email };
 
   // Validate input data
   if (
@@ -22,7 +31,7 @@ async function postTicket(req, res, next) {
     validation.isEmpty(req.body.title) ||
     validation.isEmpty(req.body.description)
   ) {
-    req.flash("error", "Please Enter Valid Data");
+    req.flash("error", "الرجاء ادخال معلومات صحيحة");
     return res.redirect("/create_ticket");
   }
 
@@ -33,6 +42,30 @@ async function postTicket(req, res, next) {
   }
 
   try {
+    // Validate reCAPTCHA
+    if (!recaptchaResponse) {
+      req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
+      return res.redirect("/create_ticket");
+    }
+    // Verify reCAPTCHA with Google
+    const response = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: secretKey,
+          response: recaptchaResponse,
+        },
+      }
+    );
+
+    const { success } = response.data;
+
+    if (!success) {
+      req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
+      return res.redirect("/create_ticket");
+    }
+
     const ticketId = await ticket.save();
     // Move email sending here
     await sendTicketEmail({ userEmail: req.body.email, ticketId });
@@ -41,7 +74,8 @@ async function postTicket(req, res, next) {
         await ticket.saveImage(ticketId);
       } */
 
-    req.flash("success", "Ticket Created");
+    req.flash("success", `تم انشاء طلب بنجاح وقم الطلب هو ${ticketId}`);
+    delete req.session.formData;
     return res.redirect("/ticket/inquiry");
   } catch (error) {
     next(error);
@@ -67,7 +101,13 @@ function getOneTicket(req, res) {
 
 async function postOneTicket(req, res, next) {
   const { ticketId, email } = req.body;
+  req.session.formData = { ticketId, email };
   let ticket;
+
+  if (ticketId < 0) {
+    req.flash("error", "الرجاء عدم ادخال رقم بالسالب");
+    return res.redirect("/ticket/inquiry");
+  }
 
   try {
     // Find ticket by ID and email
@@ -75,12 +115,12 @@ async function postOneTicket(req, res, next) {
 
     if (!ticket) {
       // If no ticket is found, display an error and redirect back to inquiry form
-      req.flash("error", "Ticket not found or email does not match.");
-
+      req.flash("error", "لم يتم العثور على طلب او الايميل غير صحيح");
       return res.redirect("/ticket/inquiry");
     }
 
     // If ticket is found, redirect to the detailed view
+    delete req.session.formData;
     return res.redirect(
       `/ticket-inquiry/${ticketId}?email=${encodeURIComponent(email)}`
     );
@@ -105,7 +145,7 @@ async function viewTicket(req, res, next) {
     }
 
     if (!ticket) {
-      req.flash("error", "Ticket not found.");
+      req.flash("error", "لم يتم العثور على الطلب");
       return res.redirect("/tickets"); // Redirect if no ticket is found
     }
 
@@ -137,7 +177,7 @@ async function viewTicketInquiry(req, res, next) {
     ticket = await Ticket.findOne(ticketId, email);
 
     if (!ticket) {
-      req.flash("error", "Access denied or ticket not found.");
+      req.flash("error", "تم رفض الدخول او لا يوجد طلب");
       return res.redirect("/ticket/inquiry");
     }
 

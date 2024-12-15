@@ -1,20 +1,20 @@
-<%- include("../includes/head") , { title: 'Ticket Creation Page' } %>
+<%- include("../includes/head") , { title: 'طلبي' } %>
 <link rel="stylesheet" href="/styles/details.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
 
 <body>
   <%- include('../includes/header') %>
   <main>
-    <h1>تذكرتي</h1>
+    <h1>طلبي</h1>
     <ul id="tickets-grid">
       <li>
         <article class="ticket-item">
           <div class="ticket-item-content">
-            <h2>عنوان التذكرة: <%= ticket.title %></h2>
+            <h2>العنوان: <%= ticket.title %></h2>
             <p style="font-weight: bold; margin-top: 2rem">
               من قبل <%= ticket.user_email %>
             </p>
-            <p>وصف التذكرة: <%= ticket.description %></p>
+            <p>الوصف: <%= ticket.description %></p>
             <p>
               الحالة: <%= (statuses[0].find(status => status.id ===
               ticket.status) || {}).name || "Unknown Status" %>

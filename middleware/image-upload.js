@@ -25,7 +25,7 @@ const upload = multer({
     if (extname && mimeType) {
       cb(null, true);
     } else {
-      req.fileValidationError = "فقط .png, .jpg, و .jpeg  هي الصيغ المسومح بها";
+      req.fileValidationError = "الصيغ المسموح بها هي (jpeg, png, و jpg)";
       cb(null, false);
     }
   },

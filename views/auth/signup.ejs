@@ -1,4 +1,4 @@
-<%- include("../includes/head") , { title: 'Signup Page' }%>
+<%- include("../includes/head") , { title: 'انشاء حساب جديد' }%>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="/styles/auth.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
@@ -16,12 +16,24 @@
       <div>
         <label for="username">الاسم:</label>
         <span class="req">*</span>
-        <input type="text" id="username" name="username" value="" required />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="<%= formData ? formData.username : '' %>"
+          required
+        />
       </div>
       <div>
         <label for="email">الايميل:</label>
         <span class="req">*</span>
-        <input type="email" id="email" name="email" value="" required />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= formData ? formData.email : '' %>"
+          required
+        />
       </div>
       <div>
         <label for="Password">كلمة المرور:</label>

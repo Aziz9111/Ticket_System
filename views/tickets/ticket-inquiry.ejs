@@ -1,4 +1,4 @@
-<%- include("../includes/head") , { title: 'Ticket Creation Page' } %>
+<%- include("../includes/head") , { title: 'متابعة طلب سابق' } %>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="/styles/auth.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
@@ -7,20 +7,36 @@
   <%- include('../includes/header') %>
   <main>
     <form class="validation-form" action="/ticket/inquiry" method="POST">
-      <h1>البحث عن تذكرة</h1>
+      <h1>متابعة طلب سابق</h1>
       <% if (messages.error ) {%>
       <div class="error">
         <li class="fa fa-times-circle"><%= messages.error %></li>
       </div>
+      <% } %> <% if (messages.success ) {%>
+      <div class="success">
+        <li class="fa fa-times-circle"><%= messages.success %></li>
+      </div>
       <% } %>
       <div>
-        <label for="ticketId">رقم التذكرة: <span class="req">*</span></label>
-        <input type="number" id="ticketId" name="ticketId" value="" required />
+        <label for="ticketId">رقم الطلب: <span class="req">*</span></label>
+        <input
+          type="number"
+          id="ticketId"
+          name="ticketId"
+          value="<%= formData ? formData.ticketId : '' %>"
+          required
+        />
       </div>
 
       <div>
         <label for="email">الايميل: <span class="req">*</span></label>
-        <input type="email" id="email" name="email" value="" required />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= formData ? formData.email : '' %>"
+          required
+        />
       </div>
 
       <!--       <div class="g-recaptcha" data-sitekey="6LcRiFgqAAAAAOE5xTh0tVYahMjZNpVwEX7RfRR6"></div>

@@ -1,4 +1,4 @@
-<%- include("../includes/head") , { title: 'Login Page' } %>
+<%- include("../includes/head") , { title: 'تسجيل الدخول' } %>
 <link rel="stylesheet" href="/styles/auth.css" />
 <link rel="stylesheet" href="/styles/navbar.css" />
 
@@ -15,7 +15,13 @@
       <div>
         <label for="email">الايميل:</label>
         <span class="req">*</span>
-        <input type="email" id="email" name="email" value="" required />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= formData ? formData.email : '' %>"
+          required
+        />
       </div>
 
       <div>

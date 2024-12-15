@@ -29,7 +29,7 @@ async function viewTicket(req, res, next) {
     // Find ticket by ID only, no need to check email here
     ticket = await Ticket.findOneId(ticketId);
     if (!ticket) {
-      req.flash("error", "Ticket not found.");
+      req.flash("error", "لم يتم العثور على الطلب");
       return res.redirect("/tickets"); // Redirect if no ticket is found
     }
     const agentId = req.session.user.id; // Get the logged-in agent's ID
@@ -37,7 +37,7 @@ async function viewTicket(req, res, next) {
     // Check if the agent is assigned to the ticket
     const isAssigned = await Ticket.existingAssignment(ticketId, agentId);
     if (!isAssigned) {
-      req.flash("error", "You do not have access to this ticket.");
+      req.flash("error", "ليس لديك صلاحية لهذا الطلب");
       return res.status(403).render("401"); // Access denied if not assigned
     }
 
@@ -85,7 +85,7 @@ async function updateTicket(req, res, next) {
     // Call the model's update method
     await Ticket.replyToAdmin(reply, ticketId);
 
-    req.flash("success", "Your reply was sent successfully.");
+    req.flash("success", "تم ارسال الرد بنجاح");
     return res.redirect(`/agent/ticket/${ticketId}`);
   } catch (error) {
     console.error("Error updating ticket:", error);
@@ -100,7 +100,7 @@ async function getSendTicket(req, res) {
   try {
     ticket = await Ticket.findOneId(ticketId);
     if (!ticket) {
-      req.flash("error", "Ticket not found.");
+      req.flash("error", "لم يتم العثور على الطلب");
       return res.redirect("/tickets"); // Redirect if no ticket is found
     }
   } catch (error) {}
@@ -114,11 +114,11 @@ async function postSendTicket(req, res, next) {
 
   try {
     // Assuming you want to send some notification or update the ticket in some way
-    req.flash("success", "Ticket sent successfully.");
+    req.flash("success", "تم ارسال الطلب بنجاح");
     return res.redirect(`/agent/ticket/${ticketId}`);
   } catch (error) {
     console.error("Error sending ticket:", error);
-    req.flash("error", "Failed to send ticket.");
+    req.flash("error", "تعذر ارسال الطلب");
     next(error);
   }
 }

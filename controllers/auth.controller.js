@@ -1,43 +1,69 @@
 const User = require("../models/user.model");
 const validation = require("../util/validation");
+const axios = require("axios");
 
 function getLogin(req, res) {
-  res.render("auth/login", {messages: req.flash()});
+  res.render("auth/login", { messages: req.flash() });
 }
 
 function getSignup(req, res) {
-  
-  res.render("auth/signup", {messages: req.flash()});
+  res.render("auth/signup", { messages: req.flash() });
 }
 
 async function signup(req, res, next) {
-  if (!validation.validUserData(
-      req.body.username,
-      req.body.email,
-      req.body.password,
-    )) {
-    req.flash("error", "Please Enter Valid Data");
-    return res.redirect("/signup"); 
+  const username = req.body.username;
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmedPassword = req.body.confirmedPassword;
+  req.session.formData = { username, email, password, confirmedPassword };
+  const recaptchaResponse = req.body["g-recaptcha-response"]; // Token from client
+  const secretKey = "6LfaiJsqAAAAACfyK8S8XF__mGdj2zXkzhaPGXyK"; // Replace with your secret key
+  // Validate reCAPTCHA
+  if (!recaptchaResponse) {
+    req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
+    return res.redirect("/signup");
+  }
+  // Verify reCAPTCHA with Google
+  const response = await axios.post(
+    "https://www.google.com/recaptcha/api/siteverify",
+    null,
+    {
+      params: {
+        secret: secretKey,
+        response: recaptchaResponse,
+      },
+    }
+  );
+
+  const { success } = response.data;
+
+  if (!success) {
+    req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
+    return res.redirect("/signup");
   }
 
-  if (!validation.passwordConfirmed(req.body.password, req.body.confirmedPassword)) {
-    req.flash("error", "Password Doesn't Match");
-    return res.redirect("/signup"); 
+  if (!validation.validUserData(username, email, password)) {
+    req.flash("error", "الرجاء ادخال معلومات صحيحة");
+    return res.redirect("/signup");
   }
 
-  const user = new User(req.body.username, req.body.email, req.body.password);
+  if (!validation.passwordConfirmed(password, confirmedPassword)) {
+    req.flash("error", "كلمة المرور لا تتطابق");
+    return res.redirect("/signup");
+  }
+
+  const user = new User(username, email, password);
   try {
-    const userExist = await user.getUserEmail(req.body.email);
+    const userExist = await user.getUserEmail(email);
 
     if (userExist) {
-      req.flash("error", "User Exists");
-      return res.redirect("/signup"); 
+      req.flash("error", "يوجد حساب لهذا الستخدم");
+      return res.redirect("/signup");
     }
     await user.createUser();
-    req.flash("success", "Account Created Successfully");
-
+    req.flash("success", "تم إنشاء الحساب بنجاح");
+    delete req.session.formData;
     return res.redirect("/");
-
   } catch (error) {
     next(error);
     return;
@@ -46,6 +72,7 @@ async function signup(req, res, next) {
 
 async function login(req, res, next) {
   const { email, password } = req.body;
+  req.session.formData = { email, password };
   const user = new User(null, email, password);
   let existingUser;
 
@@ -57,24 +84,26 @@ async function login(req, res, next) {
   }
 
   if (!existingUser) {
-    req.flash("error", "Invalid Email or Password");
+    req.flash("error", "كلمة المرور او الايميل غير صحيح");
     return res.redirect("/login");
   }
   const isPasswordValid = await user.comparePassword(existingUser.password);
-  
+
   if (!isPasswordValid) {
-    req.flash("error", "Invalid Email or Password")
-    return res.redirect("/login")
+    req.flash("error", "كلمة المرور او الايميل غير صحيح");
+    return res.redirect("/login");
   }
 
-    // Setting user data in session
-    req.session.user = {
-      id: existingUser.id,
-      email: existingUser.email,
-      role: existingUser.role, 
-    };
+  // Setting user data in session
+  req.session.user = {
+    id: existingUser.id,
+    email: existingUser.email,
+    role: existingUser.role,
+  };
 
-  res.redirect("/")
+  delete req.session.formData;
+
+  res.redirect("/");
 }
 
 function logout(req, res) {

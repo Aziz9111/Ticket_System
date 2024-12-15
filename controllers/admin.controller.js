@@ -51,7 +51,7 @@ async function viewTicket(req, res, next) {
     // Find ticket by ID only, no need to check email here
     ticket = await Ticket.findOneId(ticketId); // Ensure this method exists in your model
     if (!ticket) {
-      req.flash("error", "Ticket not found.");
+      req.flash("error", "لم يتم العثور على الطلب");
       return res.redirect("/tickets"); // Redirect if no ticket is found
     }
 
@@ -106,7 +106,7 @@ async function updateTicket(req, res, next) {
   try {
     ticket = await Ticket.findOneId(id); // Ensure this method exists in your model
     if (!ticket) {
-      req.flash("error", "Ticket not found.");
+      req.flash("error", "لم يتم العثور على الطلب");
       return res.redirect("/tickets"); // Redirect if no ticket is found
     }
     const userEmail = ticket.user_email;
@@ -122,7 +122,7 @@ async function updateTicket(req, res, next) {
       priority,
       project_id
     );
-    req.flash("success", "Ticket Updated Successfully");
+    req.flash("success", "تم التعديل على الطلب بنجاح");
     return res.redirect(`/admin/ticket/${id}`);
   } catch (error) {
     next(error);
@@ -150,7 +150,7 @@ async function postTicketType(req, res, next) {
   try {
     if (type) {
       await Ticket.type(type);
-      req.flash("success", "Type Added Successfully");
+      req.flash("success", "تم إضافة نوع بنجاح");
       return res.redirect("/admin/ticket-type");
     }
   } catch (error) {
@@ -165,7 +165,7 @@ async function postTicketStatus(req, res, next) {
   try {
     if (status) {
       await Ticket.status(status);
-      req.flash("success", "Status Added Successfully");
+      req.flash("success", "تم إضافة حالة بنجاح");
       return res.redirect("/admin/ticket-status");
     }
   } catch (error) {
@@ -181,7 +181,7 @@ async function postTicketProject(req, res, next) {
   try {
     if (project && description) {
       await Ticket.project(project, description);
-      req.flash("success", "Project Added Successfully");
+      req.flash("success", "تم أضافة مشروع بنجاح");
       return res.redirect("/admin/ticket-project");
     }
   } catch (error) {
@@ -197,7 +197,7 @@ async function getAssignTicket(req, res) {
   try {
     ticket = await Ticket.findOneId(ticketId);
     if (!ticket) {
-      req.flash("error", "Ticket not found.");
+      req.flash("error", "لم يتم العثور على الطلب");
       return res.redirect("/tickets"); // Redirect if no ticket is found
     }
 

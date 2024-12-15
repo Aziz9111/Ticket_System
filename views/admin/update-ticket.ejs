@@ -1,4 +1,4 @@
-<%- include("../includes/head") , { title: 'Ticket Update' } %>
+<%- include("../includes/head") , { title: 'تعديل طلب' } %>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="/styles/validation.css" />
 <link rel="stylesheet" href="/styles/ticket.css" />
@@ -10,7 +10,7 @@
   <%- include('../includes/header') %>
   <main>
     <form class="validation-form" action="/admin/ticket/<%= ticket.id %>" method="POST">
-      <h1>تعديل التذكرة</h1>
+      <h1>تعديل طلب</h1>
       <ul id="tickets-grid">
         <% if (messages.success ) {%>
           <div class="success">
@@ -22,13 +22,13 @@
         <li>
         <article class="ticket-item">
             <div class="ticket-item-content">
-                <h2>عنوان التذكرة: <%= ticket.title %></h2>
+                <h2>العنوان: <%= ticket.title %></h2>
                 <p style="font-weight: bold; margin-top: 2rem;">من قبل <%= ticket.user_email  %></p>
                 <p>الوصف: <%= ticket.description %></p>
                 <% if (image) { %>
                   <p>الصورة المضافة: <img src="<%= image %>" alt="Screenshot"></p>
                   <% } else { %>
-                   <p>لايوجد صورة مضافة لهذه التذكرة</p>
+                   <p>لايوجد صورة مضافة لهذاالطلب</p>
                    <% } %>
                 <hr>
                 <% if (Array.isArray(replies) && replies.length > 0) { %>      
@@ -48,7 +48,13 @@
 
       <div>
         <label for="priority">الاهمية:</label>
-        <input type="priority" id="priority" name="priority" value=""  />
+        <select name="priority" id="priority">
+          <option value="هام جدا">هام جدا</option>
+          <option value="هام">هام</option>
+          <option value="متوسط الاهمية">متوسط الاهمية</option>
+          <option value="ضعيف الاهمية">ضعيف الاهمية</option>
+        </select>
+
       </div>
 
       <div>
