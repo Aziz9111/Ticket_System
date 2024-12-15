@@ -1,6 +1,8 @@
 const User = require("../models/user.model");
 const validation = require("../util/validation");
 const axios = require("axios");
+const dotenv = require("dotenv");
+dotenv.config();
 
 function getLogin(req, res) {
   res.render("auth/login", { messages: req.flash() });
@@ -17,7 +19,7 @@ async function signup(req, res, next) {
   const confirmedPassword = req.body.confirmedPassword;
   req.session.formData = { username, email, password, confirmedPassword };
   const recaptchaResponse = req.body["g-recaptcha-response"]; // Token from client
-  const secretKey = "6LfaiJsqAAAAACfyK8S8XF__mGdj2zXkzhaPGXyK"; // Replace with your secret key
+  const secretKey = process.env.CAPTCHA_SECRET; // Replace with your secret key
   // Validate reCAPTCHA
   if (!recaptchaResponse) {
     req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");

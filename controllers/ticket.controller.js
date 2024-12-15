@@ -2,6 +2,8 @@ const Ticket = require("../models/ticket.model");
 const validation = require("../util/validation");
 const sendTicketEmail = require("../config/mail");
 const axios = require("axios");
+const dotenv = require("dotenv");
+dotenv.config();
 
 function getTicket(req, res) {
   const messages = req.flash();
@@ -15,7 +17,7 @@ async function postTicket(req, res, next) {
   const image = imageFile ? imageFile.filename : null;
   const email = req.body.email;
   const recaptchaResponse = req.body["g-recaptcha-response"]; // Token from client
-  const secretKey = "6LfaiJsqAAAAACfyK8S8XF__mGdj2zXkzhaPGXyK"; // Replace with your secret key
+  const secretKey = process.env.CAPTCHA_SECRET; // Replace with your secret key
   const ticket = new Ticket({
     title: title,
     description: description,
