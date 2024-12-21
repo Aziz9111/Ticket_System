@@ -175,6 +175,7 @@ async function viewTicket(req, res, next) {
       statuses: statuses,
       replies: replies,
       adminImage: adminImageUrl,
+      userId: image[0].user_id,
     });
   } catch (error) {
     console.error("Error fetching ticket:", error);
