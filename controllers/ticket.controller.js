@@ -209,13 +209,15 @@ async function viewTicketInquiry(req, res, next) {
     [replies] = await Ticket.getReplyToCustomer(ticketId);
 
     const messages = req.flash();
+    const userId =
+      adminImage && adminImage.length > 0 ? adminImage[0].user_id : null;
     res.render("tickets/detailed-ticket", {
       ticket: ticket,
       messages: messages,
       statuses: statuses,
       replies: replies,
       adminImage: adminImageUrl,
-      userId: adminImage[0].user_id,
+      userId: userId,
     });
   } catch (error) {
     console.error("Error in viewTicketInquiry:", error);
