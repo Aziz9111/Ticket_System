@@ -142,6 +142,8 @@ async function viewTicket(req, res, next) {
   let ticket;
   let statuses;
   let replies;
+  let adminImageUrl;
+  let adminImage;
 
   try {
     // Find ticket by ID only, no need to check email here
@@ -149,6 +151,12 @@ async function viewTicket(req, res, next) {
 
     if (ticket.user_email !== req.session.user.email) {
       return res.status(403).render("403");
+    }
+
+    adminImage = await Ticket.getAdminImage(ticketId, 2);
+
+    if (adminImage && adminImage.length > 0 && adminImage[0].path) {
+      adminImageUrl = imageUpload.convertWindowsPathToUrl(adminImage[0].path); // Assuming the image path is in `image[0].imagePath`
     }
 
     if (!ticket) {
