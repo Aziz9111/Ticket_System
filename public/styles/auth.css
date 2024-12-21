@@ -49,6 +49,7 @@ h1 {
   border-radius: 5px;
   font-size: 14px;
   margin-bottom: 15px;
+  text-decoration: none;
 }
 
 /* Success Message */
@@ -60,6 +61,7 @@ h1 {
   border: 1px solid #c3e6cb;
   border-radius: 4px;
   font-size: 14px;
+  text-decoration: none;
 }
 
 /* Labels and Inputs */
@@ -111,6 +113,12 @@ a.btn {
   text-decoration: none;
   font-weight: bold;
   margin-left: 5px;
+}
+
+ul,
+li {
+  text-decoration: none;
+  list-style: none;
 }
 
 a.btn:hover {

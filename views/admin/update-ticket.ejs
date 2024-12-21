@@ -30,6 +30,45 @@
                   <% } else { %>
                    <p>لايوجد صورة مضافة لهذاالطلب</p>
                    <% } %>
+                   <h3>سجل التحديثات:</h3>
+                   <% if (history && history.length > 0) { %>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>العمل/الرد</th>
+                          <th>التاريخ</th>
+                          <th>من</th>
+                          <th>إلى</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% history.forEach((action, idx) => { %>
+                        <tr>
+                          <td><%= action.action_desc %></td>
+                          <td><%= new Date(action.action_date).toLocaleString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></td>
+                          <td>
+                            <%= 
+                              action.reply_from === 'agent' ? 'موظف الدعم والصيانة' :
+                              action.reply_from === 'admin' ? 'الادمن' :
+                              action.reply_from === 'customer' ? 'مقدم الطلب' : 'N/A'
+                            %>
+                          </td>
+                          
+                          <td>
+                            <%= 
+                              action.reply_to === 'agent' ? 'موظف الدعم والصيانة' :
+                              action.reply_to === 'admin' ? 'الادمن' :
+                              action.reply_to === 'customer' ? 'مقدم الطلب' : 'N/A'
+                            %>
+                          </td>
+                        </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                  <% } else { %>
+                    <p>لا توجد تحديثات لهذا الطلب بعد.</p>
+                  <% } %>
+
                 <hr>
                 <% if (Array.isArray(replies) && replies.length > 0) { %>      
                   <% replies.forEach((el, idx) => { %>

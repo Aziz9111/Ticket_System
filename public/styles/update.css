@@ -90,6 +90,12 @@ a.btn:hover {
   background-color: #218838;
 }
 
+ul,
+li {
+  list-style: none;
+  text-decoration: none;
+}
+
 /* Success Message */
 .success {
   background-color: #d4edda;

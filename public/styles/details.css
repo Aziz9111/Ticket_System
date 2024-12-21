@@ -6,6 +6,10 @@
   font-family: "Poppins", sans-serif;
 }
 
+header {
+  margin: -20px;
+}
+
 /* Body and Main Container */
 body {
   background-color: #f9f9f9;

@@ -9,6 +9,8 @@ router.get("/admin/tickets", authoriz("admin"), adminController.getAllTickets);
 
 router.get("/admin/ticket/:id", authoriz("admin"), adminController.viewTicket);
 
+/* router.get("/admin/history/:id", authoriz("admin"), adminController.viewTicket);
+ */
 router.get(
   "/admin/ticket-type",
   authoriz("admin"),

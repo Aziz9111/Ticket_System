@@ -159,7 +159,8 @@ a.btn:hover {
   text-decoration: underline;
 }
 
-input {
+input,
+.stat {
   padding: 10px;
   margin-top: 8px;
   border: 1px solid #ddd;
@@ -179,7 +180,8 @@ input {
     font-size: 14px;
   }
 
-  input {
+  input,
+  .stat {
     font-size: 12px;
   }
 }

@@ -80,6 +80,11 @@ async function postTicket(req, res, next) {
     delete req.session.formData;
     return res.redirect("/ticket/inquiry");
   } catch (error) {
+    if (error instanceof multer.MulterError) {
+      if (error.code === "LIMIT_FILE_SIZE") {
+        req.flash("error", "اقصى الحجم المسموح به هو 2 ميغا فقط");
+      }
+    }
     next(error);
     return;
   }

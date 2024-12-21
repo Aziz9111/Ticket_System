@@ -130,7 +130,6 @@ h1 {
 }
 
 /* Form Inputs and Select */
-input[type="radio"],
 input[type="file"],
 textarea,
 select {
@@ -140,6 +139,22 @@ select {
   border-radius: 5px;
   width: 100%;
   font-size: 16px;
+}
+
+.rad {
+  padding: 10px;
+  margin-top: 8px;
+  margin-left: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 10%;
+  font-size: 16px;
+}
+
+ul,
+li {
+  list-style: none;
+  text-decoration: none;
 }
 
 /* Labels */

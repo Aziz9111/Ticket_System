@@ -7,6 +7,18 @@
 
   <main>
     <h1>جميع الطلبات</h1>
+    <form action="/admin/tickets" method="GET" class="filter-form">
+      <label for="status-filter">تصفية حسب الحالة:</label>
+      <select class="stat" name="status" id="status-filter" onchange="this.form.submit()">
+        <option value="">كل الحالات</option>
+        <% statuses.forEach((status) => { %>
+        <option value="<%= status.id %>" <%= selectedStatus == status.id ? "selected" : "" %>>
+          <%= status.name %>
+        </option>
+        <% }); %>
+      </select>
+    </form>
+
     <form action="/admin/search" method="GET" class="search-form">
       <input
         type="text"
@@ -28,7 +40,7 @@
             <th>العنوان</th>
             <th>الوصف</th>
             <th>تعديل</th>
-            <th>رد وتعيين</th>
+            <th>الرد والإحالة</th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +57,7 @@
             </td>
             <td>
               <a href="/admin/assign-ticket/<%= ticket.id %>" class="btn-link"
-                >رد وتعيين</a
+                >الرد والإحالة</a
               >
             </td>
           </tr>

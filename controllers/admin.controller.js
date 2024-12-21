@@ -6,16 +6,30 @@ const path = require("path");
 
 async function getAllTickets(req, res, next) {
   let tickets;
+  let statuses;
+  const selectedStatusId = req.query.status; // Get the selected status from the query parameter
+
   try {
-    tickets = await Ticket.findAll();
+    // Fetch all statuses for the dropdown
+    statuses = await Ticket.getStatuss();
+
+    if (selectedStatusId) {
+      // Fetch tickets filtered by the selected status
+      tickets = await Ticket.findByStatus(selectedStatusId);
+    } else {
+      // Fetch all tickets if no status is selected
+      tickets = await Ticket.findAll();
+    }
+
     res.render("admin/ticket-list", {
       tickets: tickets,
+      statuses: statuses[0],
+      selectedStatus: selectedStatusId || "", // Pass selected status for dropdown highlighting
     });
   } catch (error) {
     next(error);
   }
 }
-
 async function search(req, res, next) {
   const searchQuery = req.query.query || ""; // Default to empty string if no query
 
@@ -46,6 +60,7 @@ async function viewTicket(req, res, next) {
   let replies;
   let adminReplies;
   let imageUrl;
+  let history;
 
   try {
     // Find ticket by ID only, no need to check email here
@@ -74,6 +89,8 @@ async function viewTicket(req, res, next) {
     if (image && image.length > 0 && image[0].path) {
       imageUrl = imageUpload.convertWindowsPathToUrl(image[0].path); // Assuming the image path is in `image[0].imagePath`
     }
+
+    history = await Ticket.ticketHistory(ticketId);
     //console.log("imageURL", imageUrl);
     const messages = req.flash();
 
@@ -86,6 +103,7 @@ async function viewTicket(req, res, next) {
       image: imageUrl,
       replies: allReplies,
       messages: messages,
+      history: history,
     });
   } catch (error) {
     console.error("Error fetching ticket:", error);
@@ -246,7 +264,7 @@ async function postAssignTicket(req, res, next) {
     if (req.file && req.file.filename) {
       const imagePath = path.join(
         __dirname,
-        "public/Images",
+        "../public/Images",
         req.file.filename
       );
       await Ticket.imageSave(imagePath, ticketId, req.session.user.id);

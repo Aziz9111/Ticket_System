@@ -12,7 +12,7 @@
     method="POST" 
     enctype="multipart/form-data">
     
-      <h1>تعين الطلب</h1>
+      <h1>توجيه الطلب والرد عليه</h1>
       <ul id="tickets-grid">
         <% if (messages.success) { %>
           <div class="success">
@@ -24,15 +24,15 @@
 
         <li>
           <div style="display: inline-flex;">
-            <input type="radio" id="agent-option" name="recipient" value="agent" onclick="toggleRecipient()" checked>
-            <label for="agent-option">العميل</label>
-            <input type="radio" id="customer-option" name="recipient" value="customer" onclick="toggleRecipient()">
-            <label for="customer-option">الزبون</label>
+            <input class="rad" type="radio" id="agent-option" name="recipient" value="agent" onclick="toggleRecipient()" checked>
+            <label for="agent-option">موظف الدعم والصيانة</label>
+            <input class="rad" type="radio" id="customer-option" name="recipient" value="customer" onclick="toggleRecipient()">
+            <label for="customer-option">مقدم الطلب</label>
           </div>
         </li>
 
         <li id="agent-select-container">
-          <label for="agent">العميل:</label>
+          <label for="agent">موظف الدعم والصيانة:</label>
           <select id="agent" name="agent">
             <% agent.forEach(function(agent) { %>
               <option value="<%= agent.id %>" <%= ticket.agent === agent.id ? "selected" : "" %> >
@@ -43,12 +43,12 @@
         </li>
 
         <li id="agent-reply-container">
-          <label for="agent-reply">الرد على العميل:</label>
+          <label for="agent-reply">المطلوب من موظف الدعم والصيانة:</label>
           <textarea id="agent-reply" name="replyToAgent"></textarea>
         </li>
 
         <li id="customer-reply-container" style="display: none;">
-          <label for="customer-reply">الرد على الزبون:</label>
+          <label for="customer-reply">الرد على مقدم الطلب:</label>
           <textarea id="customer-reply" name="replyToCustomer"></textarea>
         </li>
 

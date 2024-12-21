@@ -25,6 +25,14 @@ class Ticket {
     return data.map((ticketData) => new Ticket(ticketData)); // Map through data
   }
 
+  static async findByStatus(statusId) {
+    const [data] = await db.query(
+      "SELECT * FROM ticket WHERE status_id = ?",
+      statusId
+    );
+    return data.map((ticketData) => new Ticket(ticketData)); // Map through data
+  }
+
   static async findOne(id, email) {
     const [data] = await db.query(
       "SELECT * FROM ticket WHERE id = ? and user_email = ?",
@@ -353,6 +361,43 @@ class Ticket {
       WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
       AND YEAR(created_at) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
     `);
+    return results;
+  }
+
+  static async ticketHistory(ticketId) {
+    const [results] = await db.query(
+      `
+      SELECT a.id AS id, 
+         a.description AS action_desc, 
+         c.name AS status_desc, 
+         d.name AS type_desc, 
+         a.priority AS priority, 
+         a.created_at AS action_date, 
+         null AS reply_from, 
+         null AS reply_to
+    FROM ticket AS a
+  LEFT JOIN status AS c ON a.status_id = c.id
+  LEFT JOIN type AS d ON a.type_id = d.id
+  WHERE a.id = ? 
+  AND EXISTS (SELECT 1 FROM reply AS e WHERE a.id = e.ticket_id)
+  UNION
+  SELECT a.id AS id, 
+         IFNULL(b.name, a.description) AS action_desc, 
+         c.name AS status_desc, 
+         d.name AS type_desc, 
+         a.priority AS priority, 
+         IFNULL(b.replyed_at, a.created_at) AS action_date, 
+         b.reply_from AS reply_from, 
+         b.reply_to AS reply_to
+    FROM ticket AS a
+  LEFT JOIN reply AS b ON a.id = b.ticket_id
+  LEFT JOIN status AS c ON a.status_id = c.id
+  LEFT JOIN type AS d ON a.type_id = d.id 
+  WHERE a.id = ?
+  ORDER BY id, action_date
+`,
+      [ticketId, ticketId]
+    );
     return results;
   }
 
