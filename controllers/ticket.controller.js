@@ -187,6 +187,8 @@ async function viewTicketInquiry(req, res, next) {
   const ticketId = req.params.id;
   const email = req.query.email; // email passed as a query parameter from postOneTicket
   let ticket, statuses, replies;
+  let adminImageUrl;
+  let adminImage;
 
   try {
     // Find ticket by ID and verify the email matches the ticket creator's email
@@ -195,6 +197,12 @@ async function viewTicketInquiry(req, res, next) {
     if (!ticket) {
       req.flash("error", "تم رفض الدخول او لا يوجد طلب");
       return res.redirect("/ticket/inquiry");
+    }
+
+    adminImage = await Ticket.getAdminImage(ticketId, 2);
+
+    if (adminImage && adminImage.length > 0 && adminImage[0].path) {
+      adminImageUrl = imageUpload.convertWindowsPathToUrl(adminImage[0].path); // Assuming the image path is in `image[0].imagePath`
     }
 
     statuses = await Ticket.getStatuss();
@@ -206,6 +214,8 @@ async function viewTicketInquiry(req, res, next) {
       messages: messages,
       statuses: statuses,
       replies: replies,
+      adminImage: adminImageUrl,
+      userId: image[0].user_id,
     });
   } catch (error) {
     console.error("Error in viewTicketInquiry:", error);
