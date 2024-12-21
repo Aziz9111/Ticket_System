@@ -37,13 +37,6 @@ async function signup(req, res, next) {
     }
   );
 
-  const { success } = response.data;
-
-  if (!success) {
-    req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
-    return res.redirect("/signup");
-  }
-
   if (!validation.validUserData(username, email, password)) {
     req.flash("error", "الرجاء ادخال معلومات صحيحة");
     return res.redirect("/signup");
@@ -60,6 +53,12 @@ async function signup(req, res, next) {
 
     if (userExist) {
       req.flash("error", "يوجد حساب لهذا الستخدم");
+      return res.redirect("/signup");
+    }
+    const { success } = response.data;
+
+    if (!success) {
+      req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
       return res.redirect("/signup");
     }
     await user.createUser();
