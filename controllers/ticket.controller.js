@@ -215,7 +215,7 @@ async function viewTicketInquiry(req, res, next) {
       statuses: statuses,
       replies: replies,
       adminImage: adminImageUrl,
-      userId: image[0].user_id,
+      userId: adminImage[0].user_id,
     });
   } catch (error) {
     console.error("Error in viewTicketInquiry:", error);
