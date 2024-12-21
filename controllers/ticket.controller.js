@@ -60,14 +60,6 @@ async function postTicket(req, res, next) {
         },
       }
     );
-
-    const { success } = response.data;
-
-    if (!success) {
-      req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
-      return res.redirect("/create_ticket");
-    }
-
     const ticketId = await ticket.save();
     // Move email sending here
     await sendTicketEmail({ userEmail: req.body.email, ticketId });
@@ -84,6 +76,13 @@ async function postTicket(req, res, next) {
       if (error.code === "LIMIT_FILE_SIZE") {
         req.flash("error", "اقصى الحجم المسموح به هو 2 ميغا فقط");
       }
+    }
+
+    const { success } = response.data;
+
+    if (!success) {
+      req.flash("error", "فشل التحقق الرجاء اعادة المحاولة");
+      return res.redirect("/create_ticket");
     }
     next(error);
     return;

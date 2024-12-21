@@ -24,6 +24,8 @@
             <p>الرد <%= idx + 1 %>: <%= el.name %></p>
             <% }) %> <% } else { %>
             <p>لايوجد رد الى الان</p>
+            <% } %> <% if (adminImage) {%>
+            <p>الرد بصورة: <img src="<%= adminImage %>" /></p>
             <% } %>
           </div>
         </article>
